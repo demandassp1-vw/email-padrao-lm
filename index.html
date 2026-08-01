@@ -64,9 +64,9 @@
 
   .tabs {
     display: flex;
-    background: var(--verde-claro-2);
-    padding: 6px;
-    gap: 6px;
+    background: transparent;
+    padding: 0;
+    gap: 10px;
     margin: 20px 24px 0;
     border-radius: 10px;
   }
@@ -74,7 +74,7 @@
   .tab-btn {
     flex: 1;
     border: none;
-    background: transparent;
+    background: var(--verde-claro-2);
     color: var(--azul-escuro);
     font-size: 13px;
     font-weight: 700;
@@ -375,6 +375,7 @@
   <div class="tabs">
     <button type="button" class="tab-btn active" id="tabBoletoBtn">Solicitação de Boleto</button>
     <button type="button" class="tab-btn" id="tabColetaBtn">Coleta de Veículos</button>
+    <button type="button" class="tab-btn" id="tabSuporteBtn">Suporte</button>
   </div>
 
   <!-- ===================== PAINEL: COLETA DE VEÍCULOS ===================== -->
@@ -561,6 +562,65 @@
       <div class="status" id="statusBoleto"></div>
     </form>
   </div>
+
+  <!-- ===================== PAINEL: SUPORTE ===================== -->
+  <div class="painel" id="painelSuporte">
+    <form id="suporteForm">
+      <div class="field-group">
+        <label for="destinatarioSuporte">Email de destino</label>
+        <select id="destinatarioSuporte" required>
+          <option value="seminovos@vwfs.com" selected>seminovos@vwfs.com</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label for="lojaSuporte">Nome da loja</label>
+        <input type="text" id="lojaSuporte" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cnpjSuporte">CNPJ</label>
+        <input type="text" id="cnpjSuporte" required>
+      </div>
+
+      <div class="field-group">
+        <label for="placaSuporte">Placa</label>
+        <input type="text" id="placaSuporte" style="text-transform:uppercase" required>
+      </div>
+
+      <div class="field-group">
+        <label for="dataRetiradaSuporte">Data da retirada</label>
+        <input type="date" id="dataRetiradaSuporte" required>
+      </div>
+
+      <div class="field-group">
+        <label for="assuntoSuporte">Assunto</label>
+        <select id="assuntoSuporte" required>
+          <option value="" disabled selected>Selecione o assunto</option>
+          <option value="Multa">Multa</option>
+          <option value="Chave Reserva">Chave Reserva</option>
+          <option value="Boleto com erro">Boleto com erro</option>
+          <option value="Envio do documento">Envio do documento</option>
+        </select>
+      </div>
+
+      <div class="field-group" id="dataPgtoBoletoGroup" style="display:none;">
+        <label for="dataPgtoBoletoSuporte">Data do pgto do boleto</label>
+        <input type="date" id="dataPgtoBoletoSuporte">
+      </div>
+
+      <div class="field-group" id="descricaoPreviewGroup" style="display:none;">
+        <label>Descrição do problema</label>
+        <p id="descricaoPreview" class="hint" style="font-size:13px; background:var(--verde-claro-2); padding:10px 12px; border-radius:8px; margin:0;"></p>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="primary">Gerar email</button>
+        <button type="button" class="secondary" id="limparSuporteBtn">Limpar</button>
+      </div>
+      <div class="status" id="statusSuporte"></div>
+    </form>
+  </div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -615,26 +675,31 @@
   /* ===================== NAVEGAÇÃO ENTRE ABAS ===================== */
   const tabColetaBtn = document.getElementById('tabColetaBtn');
   const tabBoletoBtn = document.getElementById('tabBoletoBtn');
+  const tabSuporteBtn = document.getElementById('tabSuporteBtn');
   const painelColeta = document.getElementById('painelColeta');
   const painelBoleto = document.getElementById('painelBoleto');
+  const painelSuporte = document.getElementById('painelSuporte');
   const subtitulo = document.getElementById('subtitulo');
 
   const SUBTITULOS = {
     coleta: 'Coleta de Veículos · Evento Carbank',
-    boleto: 'Solicitação de Boleto · Envio ao financeiro'
+    boleto: 'Solicitação de Boleto · Envio ao financeiro',
+    suporte: 'Suporte · Envio de documento, multas, etc.'
   };
 
   function mostrarAba(aba) {
-    const ehColeta = aba === 'coleta';
-    painelColeta.classList.toggle('ativo', ehColeta);
-    painelBoleto.classList.toggle('ativo', !ehColeta);
-    tabColetaBtn.classList.toggle('active', ehColeta);
-    tabBoletoBtn.classList.toggle('active', !ehColeta);
+    painelColeta.classList.toggle('ativo', aba === 'coleta');
+    painelBoleto.classList.toggle('ativo', aba === 'boleto');
+    painelSuporte.classList.toggle('ativo', aba === 'suporte');
+    tabColetaBtn.classList.toggle('active', aba === 'coleta');
+    tabBoletoBtn.classList.toggle('active', aba === 'boleto');
+    tabSuporteBtn.classList.toggle('active', aba === 'suporte');
     subtitulo.textContent = SUBTITULOS[aba];
   }
 
   tabColetaBtn.addEventListener('click', () => mostrarAba('coleta'));
   tabBoletoBtn.addEventListener('click', () => mostrarAba('boleto'));
+  tabSuporteBtn.addEventListener('click', () => mostrarAba('suporte'));
 
   /* ===================== FORMULÁRIO: COLETA DE VEÍCULOS ===================== */
   const destinatarioInput = document.getElementById('destinatario');
@@ -802,7 +867,7 @@ Em anexo a CNH do responsável.`;
     const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
 
     abrirModal(
-      'Não esqueça de anexar a CNH do responsável antes de enviar o email.',
+      'Não esqueça de anexar a CNH do responsável pela retirada do veículo antes de enviar o email.',
       mailtoLink,
       status
     );
@@ -956,6 +1021,109 @@ Documento em anexo: print da oferta do email.`;
   limparBoletoBtn.addEventListener('click', () => {
     boletoForm.reset();
     statusBoleto.textContent = 'Formulário limpo.';
+  });
+
+  /* ===================== FORMULÁRIO: SUPORTE ===================== */
+  const destinatarioSuporteInput = document.getElementById('destinatarioSuporte');
+  const lojaSuporteInput = document.getElementById('lojaSuporte');
+  const cnpjSuporteInput = document.getElementById('cnpjSuporte');
+  const placaSuporteInput = document.getElementById('placaSuporte');
+  const dataRetiradaSuporteInput = document.getElementById('dataRetiradaSuporte');
+  const assuntoSuporteInput = document.getElementById('assuntoSuporte');
+  const dataPgtoBoletoGroup = document.getElementById('dataPgtoBoletoGroup');
+  const dataPgtoBoletoSuporteInput = document.getElementById('dataPgtoBoletoSuporte');
+  const descricaoPreviewGroup = document.getElementById('descricaoPreviewGroup');
+  const descricaoPreview = document.getElementById('descricaoPreview');
+  const statusSuporte = document.getElementById('statusSuporte');
+  const suporteForm = document.getElementById('suporteForm');
+  const limparSuporteBtn = document.getElementById('limparSuporteBtn');
+
+  function formatarDataCompleta(valorISO) {
+    if (!valorISO) return '';
+    const [ano, mes, dia] = valorISO.split('-');
+    return `${dia}/${mes}/${ano}`;
+  }
+
+  cnpjSuporteInput.addEventListener('input', () => {
+    cnpjSuporteInput.value = maskCNPJ(cnpjSuporteInput.value);
+  });
+
+  function gerarDescricaoSuporte(assunto, dataPgtoBR) {
+    const DESCRICOES = {
+      'Multa': 'Solicito apoio pois, ao consultarmos os débitos do veículo, identificamos uma multa anterior à data da coleta do carro.',
+      'Chave Reserva': 'Solicito apoio pois o veículo não possui a chave reserva.',
+      'Boleto com erro': 'Solicito apoio pois o boleto enviado está com erro.',
+      'Envio do documento': `Solicito apoio pois efetuamos o pagamento do boleto no dia ${dataPgtoBR || 'xx/xx/xxxx'} e, até o momento, não recebemos o documento.`
+    };
+    return DESCRICOES[assunto] || '';
+  }
+
+  function atualizarDescricaoSuporte() {
+    const assunto = assuntoSuporteInput.value;
+
+    if (!assunto) {
+      descricaoPreviewGroup.style.display = 'none';
+      dataPgtoBoletoGroup.style.display = 'none';
+      return;
+    }
+
+    const ehEnvioDocumento = assunto === 'Envio do documento';
+    dataPgtoBoletoGroup.style.display = ehEnvioDocumento ? 'flex' : 'none';
+
+    const dataPgtoBR = formatarDataCompleta(dataPgtoBoletoSuporteInput.value);
+    descricaoPreview.textContent = gerarDescricaoSuporte(assunto, dataPgtoBR);
+    descricaoPreviewGroup.style.display = 'flex';
+  }
+
+  assuntoSuporteInput.addEventListener('change', atualizarDescricaoSuporte);
+  dataPgtoBoletoSuporteInput.addEventListener('change', atualizarDescricaoSuporte);
+
+  suporteForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const destinatario = destinatarioSuporteInput.value;
+    const loja = lojaSuporteInput.value.trim();
+    const cnpj = cnpjSuporteInput.value.trim();
+    const placa = placaSuporteInput.value.trim().toUpperCase();
+    const dataRetiradaBR = formatarDataCompleta(dataRetiradaSuporteInput.value);
+    const assunto = assuntoSuporteInput.value;
+    const ehEnvioDocumento = assunto === 'Envio do documento';
+    const dataPgtoBR = formatarDataCompleta(dataPgtoBoletoSuporteInput.value);
+
+    if (!loja || !cnpj || !placa || !dataRetiradaBR || !assunto || (ehEnvioDocumento && !dataPgtoBR)) {
+      statusSuporte.textContent = 'Preencha todos os campos antes de gerar o email.';
+      return;
+    }
+
+    const descricao = gerarDescricaoSuporte(assunto, dataPgtoBR);
+
+    const assuntoEmail = `Suporte - ${assunto} - Placa ${placa} - CNPJ ${cnpj}`;
+
+    const corpo =
+`Olá, tudo bem?
+
+Nome da Loja: ${loja}
+CNPJ: ${cnpj}
+Placa: ${placa}
+Data da retirada: ${dataRetiradaBR}
+Assunto: ${assunto}
+
+${descricao}`;
+
+    const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assuntoEmail)}&body=${encodeURIComponent(corpo)}`;
+
+    abrirModal(
+      'Confira os dados antes de enviar o email.',
+      mailtoLink,
+      statusSuporte
+    );
+  });
+
+  limparSuporteBtn.addEventListener('click', () => {
+    suporteForm.reset();
+    dataPgtoBoletoGroup.style.display = 'none';
+    descricaoPreviewGroup.style.display = 'none';
+    statusSuporte.textContent = 'Formulário limpo.';
   });
 </script>
 
