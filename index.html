@@ -285,16 +285,82 @@
     min-height: 16px;
   }
 
-  footer {
-    text-align: center;
-    font-size: 11px;
-    color: #9fb5c7;
-    padding: 12px 20px;
-    max-width: 480px;
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 47, 82, 0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
   }
 
-  footer p {
-    margin: 4px 0;
+  .modal-overlay.aberto {
+    display: flex;
+  }
+
+  .modal-box {
+    background: var(--branco);
+    border-radius: 16px;
+    max-width: 380px;
+    width: 100%;
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    border-top: 6px solid var(--verde-claro);
+  }
+
+  .modal-icon {
+    font-size: 34px;
+    margin-bottom: 8px;
+  }
+
+  .modal-box h2 {
+    color: var(--azul-escuro);
+    font-size: 18px;
+    margin: 0 0 10px;
+  }
+
+  .modal-box p {
+    color: var(--azul-escuro);
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 22px;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .modal-actions button {
+    flex: 1;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+  }
+
+  .modal-cancelar {
+    background: var(--branco);
+    color: var(--azul-escuro);
+    border: 1.5px solid var(--azul-escuro) !important;
+  }
+
+  .modal-cancelar:hover {
+    background: var(--verde-claro-2);
+  }
+
+  .modal-confirmar {
+    background: var(--verde-claro);
+    color: var(--azul-escuro-2);
+  }
+
+  .modal-confirmar:hover {
+    background: #7bc981;
   }
 </style>
 </head>
@@ -315,7 +381,7 @@
   <div class="painel" id="painelColeta">
     <form id="emailForm">
       <div class="field-group">
-        <label for="destinatario">E-mail de destino</label>
+        <label for="destinatario">Email de destino</label>
         <select id="destinatario" required>
           <option value="seminovos@vwfs.com" selected>seminovos@vwfs.com</option>
         </select>
@@ -348,7 +414,7 @@
       </div>
 
       <div class="actions">
-        <button type="submit" class="primary">Gerar e-mail</button>
+        <button type="submit" class="primary">Gerar email</button>
         <button type="button" class="secondary" id="limparBtn">Limpar</button>
       </div>
       <div class="status" id="status"></div>
@@ -359,7 +425,7 @@
   <div class="painel ativo" id="painelBoleto">
     <form id="boletoForm">
       <div class="field-group">
-        <label for="destinatarioBoleto">E-mail de destino</label>
+        <label for="destinatarioBoleto">Email de destino</label>
         <select id="destinatarioBoleto" required>
           <option value="seminovos@vwfs.com" selected>seminovos@vwfs.com</option>
         </select>
@@ -489,7 +555,7 @@
       </div>
 
       <div class="actions">
-        <button type="submit" class="primary">Gerar e-mail</button>
+        <button type="submit" class="primary">Gerar email</button>
         <button type="button" class="secondary" id="limparBoletoBtn">Limpar</button>
       </div>
       <div class="status" id="statusBoleto"></div>
@@ -497,12 +563,55 @@
   </div>
 </div>
 
-<footer>
-  <p>Lembre-se de anexar a CNH do responsável antes de enviar (Coleta de Veículos) — o link de e-mail não anexa arquivos automaticamente.</p>
-  <p>Lembre-se de anexar o print da oferta do e-mail antes de enviar.</p>
-</footer>
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <div class="modal-icon">⚠️</div>
+    <h2>Atenção</h2>
+    <p id="modalMensagem"></p>
+    <div class="modal-actions">
+      <button type="button" class="modal-cancelar" id="modalCancelar">Voltar</button>
+      <button type="button" class="modal-confirmar" id="modalConfirmar">Abrir email</button>
+    </div>
+  </div>
+</div>
 
 <script>
+  /* ===================== MODAL DE ATENÇÃO ===================== */
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalMensagem = document.getElementById('modalMensagem');
+  const modalCancelar = document.getElementById('modalCancelar');
+  const modalConfirmar = document.getElementById('modalConfirmar');
+
+  let linkPendente = null;
+  let statusPendente = null;
+
+  function abrirModal(mensagem, link, statusEl) {
+    modalMensagem.textContent = mensagem;
+    linkPendente = link;
+    statusPendente = statusEl;
+    modalOverlay.classList.add('aberto');
+  }
+
+  function fecharModal() {
+    modalOverlay.classList.remove('aberto');
+    linkPendente = null;
+    statusPendente = null;
+  }
+
+  modalCancelar.addEventListener('click', fecharModal);
+
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) fecharModal();
+  });
+
+  modalConfirmar.addEventListener('click', () => {
+    if (linkPendente) {
+      window.location.href = linkPendente;
+      if (statusPendente) statusPendente.textContent = 'Abrindo seu programa de email...';
+    }
+    fecharModal();
+  });
+
   /* ===================== NAVEGAÇÃO ENTRE ABAS ===================== */
   const tabColetaBtn = document.getElementById('tabColetaBtn');
   const tabBoletoBtn = document.getElementById('tabBoletoBtn');
@@ -667,7 +776,7 @@
     const placas = obterPlacas();
 
     if (!destinatario || !dataBR || !loja || !cnpj || !telefone) {
-      status.textContent = 'Preencha todos os campos antes de gerar o e-mail.';
+      status.textContent = 'Preencha todos os campos antes de gerar o email.';
       return;
     }
 
@@ -692,9 +801,11 @@ Em anexo a CNH do responsável.`;
 
     const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
 
-    window.location.href = mailtoLink;
-
-    status.textContent = 'Abrindo seu programa de e-mail...';
+    abrirModal(
+      'Não esqueça de anexar a CNH do responsável antes de enviar o email.',
+      mailtoLink,
+      status
+    );
   });
 
   limparBtn.addEventListener('click', () => {
@@ -806,7 +917,7 @@ Em anexo a CNH do responsável.`;
     if (!loja || !cnpj || !placa || !kmAtual || !nomeCliente || !cpf || !valorRepasse ||
         !ruaCliente || !numeroCliente || !bairroCliente || !cepCliente || !cidadeCliente || !ufCliente ||
         !ruaEnvio || !numeroEnvio || !bairroEnvio || !cepEnvio || !cidadeEnvio || !ufEnvio) {
-      statusBoleto.textContent = 'Preencha todos os campos antes de gerar o e-mail.';
+      statusBoleto.textContent = 'Preencha todos os campos antes de gerar o email.';
       return;
     }
 
@@ -831,13 +942,15 @@ Valor do repasse: ${valorRepasse}
 
 Endereço para envio do documento: ${enderecoEnvio}
 
-Documento em anexo: print da oferta do e-mail.`;
+Documento em anexo: print da oferta do email.`;
 
     const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
 
-    window.location.href = mailtoLink;
-
-    statusBoleto.textContent = 'Abrindo seu programa de e-mail...';
+    abrirModal(
+      'Lembre-se de anexar o print da oferta do email antes de enviar.',
+      mailtoLink,
+      statusBoleto
+    );
   });
 
   limparBoletoBtn.addEventListener('click', () => {
