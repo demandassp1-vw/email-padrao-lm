@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Padrão</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<style>
+  :root {
+    --branco: #ffffff;
+    --verde-claro: #8fd694;
+    --verde-claro-2: #e7f7e9;
+    --azul-escuro: #0d3b66;
+    --azul-escuro-2: #0a2f52;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg, var(--verde-claro-2) 0%, var(--branco) 100%);
+    color: var(--azul-escuro);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+
+  .card {
+    background: var(--branco);
+    width: 100%;
+    max-width: 480px;
+    border-radius: 16px;
+    box-shadow: 0 8px 28px rgba(13, 59, 102, 0.15);
+    overflow: hidden;
+    border-top: 6px solid var(--verde-claro);
+  }
+
+  header {
+    background: var(--azul-escuro);
+    padding: 22px 24px;
+    text-align: center;
+  }
+
+  header h1 {
+    color: var(--branco);
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+  }
+
+  header p {
+    color: var(--verde-claro);
+    margin: 6px 0 0;
+    font-size: 13px;
+  }
+
+  form {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--azul-escuro);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #cfe8d1;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--azul-escuro);
+    background: var(--verde-claro-2);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--azul-escuro);
+    box-shadow: 0 0 0 3px rgba(13, 59, 102, 0.12);
+    background: var(--branco);
+  }
+
+  .hint {
+    font-size: 11px;
+    color: #6b8f74;
+    margin-top: 4px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .placas-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .placa-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .placa-row input {
+    flex: 1;
+    text-transform: uppercase;
+  }
+
+  .icon-btn {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .add-btn {
+    background: var(--verde-claro);
+    color: var(--azul-escuro-2);
+  }
+
+  .add-btn:hover {
+    background: #7bc981;
+  }
+
+  .remove-btn {
+    background: #f5d5d5;
+    color: #a33;
+  }
+
+  .remove-btn:hover {
+    background: #f0c0c0;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  button.primary {
+    flex: 2;
+    background: var(--verde-claro);
+    color: var(--azul-escuro-2);
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  button.primary:hover {
+    background: #7bc981;
+  }
+
+  button.primary:active {
+    transform: scale(0.98);
+  }
+
+  button.secondary {
+    flex: 1;
+    background: var(--branco);
+    color: var(--azul-escuro);
+    border: 1.5px solid var(--azul-escuro);
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  button.secondary:hover {
+    background: var(--verde-claro-2);
+  }
+
+  button.secondary:active {
+    transform: scale(0.98);
+  }
+
+  .status {
+    text-align: center;
+    font-size: 12px;
+    color: var(--azul-escuro);
+    min-height: 16px;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 11px;
+    color: #9fb5c7;
+    padding: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <header>
+    <h1>Email Padrão</h1>
+    <p>Coleta de Veículos · Evento Carbank</p>
+  </header>
+
+  <nav style="text-align:center; padding:10px 24px 0;">
+    <a href="boleto.html" style="font-size:12px; color:var(--azul-escuro); text-decoration:none; border-bottom:1px dashed var(--verde-claro);">Ir para Solicitação de Boleto →</a>
+  </nav>
+
+  <form id="emailForm">
+    <div class="field-group">
+      <label for="destinatario">E-mail de destino</label>
+      <input type="email" id="destinatario" placeholder="destino@exemplo.com" required>
+      <span class="hint">Salvo automaticamente no navegador.</span>
+    </div>
+
+    <div class="field-group">
+      <label for="dataEvento">Data do evento</label>
+      <input type="date" id="dataEvento" required>
+    </div>
+
+    <div class="field-group">
+      <label for="loja">Nome da loja</label>
+      <input type="text" id="loja" placeholder="Ex: Loja Carbank Osasco" required>
+    </div>
+
+    <div class="field-group">
+      <label for="cnpj">CNPJ</label>
+      <input type="text" id="cnpj" placeholder="00.000.000/0000-00" required>
+    </div>
+
+    <div class="field-group">
+      <label for="telefone">Telefone de contato</label>
+      <input type="text" id="telefone" placeholder="(00) 00000-0000" required>
+    </div>
+
+    <div class="field-group">
+      <label>Placa(s)</label>
+      <div class="placas-wrapper" id="placasWrapper"></div>
+      <span class="hint">Clique no + para adicionar mais placas.</span>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="primary">Gerar e-mail</button>
+      <button type="button" class="secondary" id="limparBtn">Limpar</button>
+    </div>
+    <div class="status" id="status"></div>
+  </form>
+</div>
+
+<footer>Lembre-se de anexar a CNH do responsável antes de enviar — o link de e-mail não anexa arquivos automaticamente.</footer>
+
+<script>
+  const destinatarioInput = document.getElementById('destinatario');
+  const dataInput = document.getElementById('dataEvento');
+  const lojaInput = document.getElementById('loja');
+  const cnpjInput = document.getElementById('cnpj');
+  const telefoneInput = document.getElementById('telefone');
+  const placasWrapper = document.getElementById('placasWrapper');
+  const status = document.getElementById('status');
+  const form = document.getElementById('emailForm');
+  const limparBtn = document.getElementById('limparBtn');
+
+  const CAMPOS_PERSISTENTES = {
+    destinatario: 'emailPadrao_destinatario',
+    loja: 'emailPadrao_loja',
+    cnpj: 'emailPadrao_cnpj',
+    telefone: 'emailPadrao_telefone'
+  };
+
+  // Restaura dados salvos no cache do navegador
+  function restaurarCampo(input, chave) {
+    const salvo = localStorage.getItem(chave);
+    if (salvo) input.value = salvo;
+  }
+  restaurarCampo(destinatarioInput, CAMPOS_PERSISTENTES.destinatario);
+  restaurarCampo(lojaInput, CAMPOS_PERSISTENTES.loja);
+  restaurarCampo(cnpjInput, CAMPOS_PERSISTENTES.cnpj);
+  restaurarCampo(telefoneInput, CAMPOS_PERSISTENTES.telefone);
+
+  if (destinatarioInput.value) {
+    status.textContent = 'Dados salvos carregados do navegador.';
+  }
+
+  // Salva automaticamente ao digitar/alterar
+  [
+    [destinatarioInput, CAMPOS_PERSISTENTES.destinatario],
+    [lojaInput, CAMPOS_PERSISTENTES.loja],
+    [cnpjInput, CAMPOS_PERSISTENTES.cnpj],
+    [telefoneInput, CAMPOS_PERSISTENTES.telefone]
+  ].forEach(([input, chave]) => {
+    input.addEventListener('input', () => {
+      localStorage.setItem(chave, input.value.trim());
+    });
+  });
+
+  // --- Campos de Placa dinâmicos ---
+  function criarLinhaPlaca(comBotaoAdd) {
+    const row = document.createElement('div');
+    row.className = 'placa-row';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'placa-input';
+    input.placeholder = 'ABC-1234';
+    input.maxLength = 8;
+
+    row.appendChild(input);
+
+    if (comBotaoAdd) {
+      const addBtn = document.createElement('button');
+      addBtn.type = 'button';
+      addBtn.className = 'icon-btn add-btn';
+      addBtn.textContent = '+';
+      addBtn.title = 'Adicionar outra placa';
+      addBtn.addEventListener('click', () => {
+        const novaRow = criarLinhaPlaca(false);
+        placasWrapper.appendChild(novaRow);
+        novaRow.querySelector('input').focus();
+      });
+      row.appendChild(addBtn);
+    } else {
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'icon-btn remove-btn';
+      removeBtn.textContent = '×';
+      removeBtn.title = 'Remover esta placa';
+      removeBtn.addEventListener('click', () => {
+        row.remove();
+      });
+      row.appendChild(removeBtn);
+    }
+
+    return row;
+  }
+
+  function resetarPlacas() {
+    placasWrapper.innerHTML = '';
+    placasWrapper.appendChild(criarLinhaPlaca(true));
+  }
+
+  resetarPlacas();
+
+  function formatarDataBR(valorISO) {
+    if (!valorISO) return '';
+    const [ano, mes, dia] = valorISO.split('-');
+    return `${dia}/${mes}`;
+  }
+
+  function obterPlacas() {
+    return Array.from(document.querySelectorAll('.placa-input'))
+      .map(el => el.value.trim().toUpperCase())
+      .filter(v => v.length > 0);
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const destinatario = destinatarioInput.value.trim();
+    const dataBR = formatarDataBR(dataInput.value);
+    const loja = lojaInput.value.trim();
+    const cnpj = cnpjInput.value.trim();
+    const telefone = telefoneInput.value.trim();
+    const placas = obterPlacas();
+
+    if (!destinatario || !dataBR || !loja || !cnpj || !telefone) {
+      status.textContent = 'Preencha todos os campos antes de gerar o e-mail.';
+      return;
+    }
+
+    const assunto = `Coleta Veículos - Evento Carbank ${dataBR}`;
+
+    const linhasPlacas = placas.length > 0
+      ? placas.join('\n')
+      : '(informar placa)';
+
+    const corpo =
+`Olá, tudo bem?
+
+Segue abaixo os dados para a retirada dos carros do evento data ${dataBR}.
+
+Nome da loja: ${loja}
+CNPJ: ${cnpj}
+Tel contato: ${telefone}
+Placa(s):
+${linhasPlacas}
+
+Em anexo a CNH do responsável.`;
+
+    const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+
+    window.location.href = mailtoLink;
+
+    status.textContent = 'Abrindo seu programa de e-mail...';
+  });
+
+  // Botão Limpar: reseta apenas data do evento e placas
+  limparBtn.addEventListener('click', () => {
+    dataInput.value = '';
+    resetarPlacas();
+    status.textContent = 'Data e placas limpas. Os demais dados continuam salvos.';
+  });
+</script>
+
+</body>
+</html>

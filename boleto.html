@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Padrão</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<style>
+  :root {
+    --branco: #ffffff;
+    --verde-claro: #8fd694;
+    --verde-claro-2: #e7f7e9;
+    --azul-escuro: #0d3b66;
+    --azul-escuro-2: #0a2f52;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg, var(--verde-claro-2) 0%, var(--branco) 100%);
+    color: var(--azul-escuro);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+
+  .card {
+    background: var(--branco);
+    width: 100%;
+    max-width: 480px;
+    border-radius: 16px;
+    box-shadow: 0 8px 28px rgba(13, 59, 102, 0.15);
+    overflow: hidden;
+    border-top: 6px solid var(--verde-claro);
+  }
+
+  header {
+    background: var(--azul-escuro);
+    padding: 22px 24px;
+    text-align: center;
+  }
+
+  header h1 {
+    color: var(--branco);
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+  }
+
+  header p {
+    color: var(--verde-claro);
+    margin: 6px 0 0;
+    font-size: 13px;
+  }
+
+  nav {
+    text-align: center;
+    padding: 10px 24px 0;
+  }
+
+  nav a {
+    font-size: 12px;
+    color: var(--azul-escuro);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--verde-claro);
+  }
+
+  nav a:hover {
+    color: var(--azul-escuro-2);
+  }
+
+  form {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--azul-escuro);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #cfe8d1;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--azul-escuro);
+    background: var(--verde-claro-2);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--azul-escuro);
+    box-shadow: 0 0 0 3px rgba(13, 59, 102, 0.12);
+    background: var(--branco);
+  }
+
+  .hint {
+    font-size: 11px;
+    color: #6b8f74;
+    margin-top: 4px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .address-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    border: 1.5px solid var(--verde-claro);
+    border-radius: 10px;
+    background: #fbfffc;
+  }
+
+  .address-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--azul-escuro);
+    margin-bottom: -2px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 0.8fr;
+    gap: 10px;
+  }
+
+  .grid-2 .field-group label,
+  .grid-3 .field-group label {
+    font-size: 12px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  button.primary {
+    flex: 2;
+    background: var(--verde-claro);
+    color: var(--azul-escuro-2);
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  button.primary:hover {
+    background: #7bc981;
+  }
+
+  button.primary:active {
+    transform: scale(0.98);
+  }
+
+  button.secondary {
+    flex: 1;
+    background: var(--branco);
+    color: var(--azul-escuro);
+    border: 1.5px solid var(--azul-escuro);
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  button.secondary:hover {
+    background: var(--verde-claro-2);
+  }
+
+  button.secondary:active {
+    transform: scale(0.98);
+  }
+
+  .status {
+    text-align: center;
+    font-size: 12px;
+    color: var(--azul-escuro);
+    min-height: 16px;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 11px;
+    color: #9fb5c7;
+    padding: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <header>
+    <h1>Solicitação de Boleto</h1>
+    <p>Envio padronizado ao financeiro</p>
+  </header>
+
+  <nav><a href="index.html">← Voltar para Email Padrão (Coleta de Veículos)</a></nav>
+
+  <form id="boletoForm">
+    <div class="field-group">
+      <label for="destinatario">E-mail de destino</label>
+      <select id="destinatario" required>
+        <option value="seminovos@vwfs.com" selected>seminovos@vwfs.com</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label for="loja">Nome da loja</label>
+      <input type="text" id="loja" required>
+    </div>
+
+    <div class="field-group">
+      <label for="cnpj">CNPJ</label>
+      <input type="text" id="cnpj" required>
+    </div>
+
+    <div class="field-group">
+      <label for="placa">Placa</label>
+      <input type="text" id="placa" style="text-transform:uppercase" required>
+    </div>
+
+    <div class="field-group">
+      <label for="kmAtual">Km atual</label>
+      <input type="text" id="kmAtual" required>
+    </div>
+
+    <div class="field-group">
+      <label for="nomeCliente">Nome do cliente</label>
+      <input type="text" id="nomeCliente" required>
+    </div>
+
+    <div class="field-group">
+      <label for="cpf">CPF</label>
+      <input type="text" id="cpf" required>
+    </div>
+
+    <div class="address-block">
+      <span class="address-title">Endereço do cliente</span>
+
+      <div class="field-group">
+        <label for="ruaCliente">Rua/Avenida</label>
+        <input type="text" id="ruaCliente" required>
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label for="numeroCliente">Nº</label>
+          <input type="text" id="numeroCliente" required>
+        </div>
+        <div class="field-group">
+          <label for="bairroCliente">Bairro</label>
+          <input type="text" id="bairroCliente" required>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="field-group">
+          <label for="cepCliente">CEP</label>
+          <input type="text" id="cepCliente" required>
+        </div>
+        <div class="field-group">
+          <label for="cidadeCliente">Cidade</label>
+          <input type="text" id="cidadeCliente" required>
+        </div>
+        <div class="field-group">
+          <label for="ufCliente">UF</label>
+          <select id="ufCliente" required>
+            <option value="" disabled selected></option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+            <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+            <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+            <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+            <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+            <option>SP</option><option>SE</option><option>TO</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="valorRepasse">Valor do repasse</label>
+      <input type="text" id="valorRepasse" required>
+    </div>
+
+    <div class="address-block">
+      <span class="address-title">Endereço para envio do documento</span>
+
+      <div class="field-group">
+        <label for="ruaEnvio">Rua/Avenida</label>
+        <input type="text" id="ruaEnvio" required>
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label for="numeroEnvio">Nº</label>
+          <input type="text" id="numeroEnvio" required>
+        </div>
+        <div class="field-group">
+          <label for="bairroEnvio">Bairro</label>
+          <input type="text" id="bairroEnvio" required>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="field-group">
+          <label for="cepEnvio">CEP</label>
+          <input type="text" id="cepEnvio" required>
+        </div>
+        <div class="field-group">
+          <label for="cidadeEnvio">Cidade</label>
+          <input type="text" id="cidadeEnvio" required>
+        </div>
+        <div class="field-group">
+          <label for="ufEnvio">UF</label>
+          <select id="ufEnvio" required>
+            <option value="" disabled selected></option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+            <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+            <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+            <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+            <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+            <option>SP</option><option>SE</option><option>TO</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="primary">Gerar e-mail</button>
+      <button type="button" class="secondary" id="limparBtn">Limpar</button>
+    </div>
+    <div class="status" id="status"></div>
+  </form>
+</div>
+
+<footer>Lembre-se de anexar o print da oferta do e-mail antes de enviar — o link de e-mail não anexa arquivos automaticamente.</footer>
+
+<script>
+  const destinatarioInput = document.getElementById('destinatario');
+  const lojaInput = document.getElementById('loja');
+  const cnpjInput = document.getElementById('cnpj');
+  const placaInput = document.getElementById('placa');
+  const kmAtualInput = document.getElementById('kmAtual');
+  const nomeClienteInput = document.getElementById('nomeCliente');
+  const cpfInput = document.getElementById('cpf');
+  const valorRepasseInput = document.getElementById('valorRepasse');
+  const status = document.getElementById('status');
+  const form = document.getElementById('boletoForm');
+  const limparBtn = document.getElementById('limparBtn');
+
+  const ruaClienteInput = document.getElementById('ruaCliente');
+  const numeroClienteInput = document.getElementById('numeroCliente');
+  const bairroClienteInput = document.getElementById('bairroCliente');
+  const cepClienteInput = document.getElementById('cepCliente');
+  const cidadeClienteInput = document.getElementById('cidadeCliente');
+  const ufClienteInput = document.getElementById('ufCliente');
+
+  const ruaEnvioInput = document.getElementById('ruaEnvio');
+  const numeroEnvioInput = document.getElementById('numeroEnvio');
+  const bairroEnvioInput = document.getElementById('bairroEnvio');
+  const cepEnvioInput = document.getElementById('cepEnvio');
+  const cidadeEnvioInput = document.getElementById('cidadeEnvio');
+  const ufEnvioInput = document.getElementById('ufEnvio');
+
+  // --- Máscaras ---
+  function maskCNPJ(valor) {
+    return valor.replace(/\D/g, '').slice(0, 14)
+      .replace(/^(\d{2})(\d)/, '$1.$2')
+      .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+      .replace(/\.(\d{3})(\d)/, '.$1/$2')
+      .replace(/(\d{4})(\d)/, '$1-$2');
+  }
+
+  function maskCPF(valor) {
+    return valor.replace(/\D/g, '').slice(0, 11)
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  }
+
+  function maskCEP(valor) {
+    return valor.replace(/\D/g, '').slice(0, 8)
+      .replace(/(\d{5})(\d)/, '$1-$2');
+  }
+
+  function maskMoeda(valor) {
+    let digitos = valor.replace(/\D/g, '');
+    if (!digitos) return '';
+    const numero = parseInt(digitos, 10) / 100;
+    return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  cnpjInput.addEventListener('input', () => {
+    cnpjInput.value = maskCNPJ(cnpjInput.value);
+  });
+
+  cpfInput.addEventListener('input', () => {
+    cpfInput.value = maskCPF(cpfInput.value);
+  });
+
+  cepClienteInput.addEventListener('input', () => {
+    cepClienteInput.value = maskCEP(cepClienteInput.value);
+  });
+
+  cepEnvioInput.addEventListener('input', () => {
+    cepEnvioInput.value = maskCEP(cepEnvioInput.value);
+  });
+
+  valorRepasseInput.addEventListener('input', () => {
+    valorRepasseInput.value = maskMoeda(valorRepasseInput.value);
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const destinatario = destinatarioInput.value;
+    const loja = lojaInput.value.trim();
+    const cnpj = cnpjInput.value.trim();
+    const placa = placaInput.value.trim().toUpperCase();
+    const kmAtual = kmAtualInput.value.trim();
+    const nomeCliente = nomeClienteInput.value.trim();
+    const cpf = cpfInput.value.trim();
+    const valorRepasse = valorRepasseInput.value.trim();
+
+    const ruaCliente = ruaClienteInput.value.trim();
+    const numeroCliente = numeroClienteInput.value.trim();
+    const bairroCliente = bairroClienteInput.value.trim();
+    const cepCliente = cepClienteInput.value.trim();
+    const cidadeCliente = cidadeClienteInput.value.trim();
+    const ufCliente = ufClienteInput.value;
+
+    const ruaEnvio = ruaEnvioInput.value.trim();
+    const numeroEnvio = numeroEnvioInput.value.trim();
+    const bairroEnvio = bairroEnvioInput.value.trim();
+    const cepEnvio = cepEnvioInput.value.trim();
+    const cidadeEnvio = cidadeEnvioInput.value.trim();
+    const ufEnvio = ufEnvioInput.value;
+
+    if (!loja || !cnpj || !placa || !kmAtual || !nomeCliente || !cpf || !valorRepasse ||
+        !ruaCliente || !numeroCliente || !bairroCliente || !cepCliente || !cidadeCliente || !ufCliente ||
+        !ruaEnvio || !numeroEnvio || !bairroEnvio || !cepEnvio || !cidadeEnvio || !ufEnvio) {
+      status.textContent = 'Preencha todos os campos antes de gerar o e-mail.';
+      return;
+    }
+
+    const enderecoCliente = `${ruaCliente}, nº ${numeroCliente} - ${bairroCliente} - CEP ${cepCliente} - ${cidadeCliente}/${ufCliente}`;
+    const enderecoEnvio = `${ruaEnvio}, nº ${numeroEnvio} - ${bairroEnvio} - CEP ${cepEnvio} - ${cidadeEnvio}/${ufEnvio}`;
+
+    const assunto = `Solicitação de Boleto - Placa ${placa} - CNPJ ${cnpj} - Nome da loja ${loja}`;
+
+    const corpo =
+`Olá, tudo bem?
+
+Solicito a emissão do boleto conforme os dados abaixo:
+
+Nome da Loja: ${loja}
+CNPJ: ${cnpj}
+Placa: ${placa}
+Km atual: ${kmAtual}
+Nome Cliente: ${nomeCliente}
+CPF: ${cpf}
+Endereço do cliente: ${enderecoCliente}
+Valor do repasse: ${valorRepasse}
+
+Endereço para envio do documento: ${enderecoEnvio}
+
+Documento em anexo: print da oferta do e-mail.`;
+
+    const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+
+    window.location.href = mailtoLink;
+
+    status.textContent = 'Abrindo seu programa de e-mail...';
+  });
+
+  limparBtn.addEventListener('click', () => {
+    form.reset();
+    status.textContent = 'Formulário limpo.';
+  });
+</script>
+
+</body>
+</html>
