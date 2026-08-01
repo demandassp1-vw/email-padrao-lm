@@ -303,16 +303,16 @@
 <div class="card">
   <header>
     <h1>Email Padrão</h1>
-    <p id="subtitulo">Coleta de Veículos · Evento Carbank</p>
+    <p id="subtitulo">Solicitação de Boleto · Envio ao financeiro</p>
   </header>
 
   <div class="tabs">
-    <button type="button" class="tab-btn" id="tabBoletoBtn">Solicitação de Boleto</button>
-    <button type="button" class="tab-btn active" id="tabColetaBtn">Coleta de Veículos</button>
+    <button type="button" class="tab-btn active" id="tabBoletoBtn">Solicitação de Boleto</button>
+    <button type="button" class="tab-btn" id="tabColetaBtn">Coleta de Veículos</button>
   </div>
 
   <!-- ===================== PAINEL: COLETA DE VEÍCULOS ===================== -->
-  <div class="painel ativo" id="painelColeta">
+  <div class="painel" id="painelColeta">
     <form id="emailForm">
       <div class="field-group">
         <label for="destinatario">E-mail de destino</label>
@@ -356,7 +356,7 @@
   </div>
 
   <!-- ===================== PAINEL: SOLICITAÇÃO DE BOLETO ===================== -->
-  <div class="painel" id="painelBoleto">
+  <div class="painel ativo" id="painelBoleto">
     <form id="boletoForm">
       <div class="field-group">
         <label for="destinatarioBoleto">E-mail de destino</label>
