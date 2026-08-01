@@ -61,6 +61,45 @@
     font-size: 13px;
   }
 
+  .tabs {
+    display: flex;
+    background: var(--verde-claro-2);
+    padding: 6px;
+    gap: 6px;
+    margin: 20px 24px 0;
+    border-radius: 10px;
+  }
+
+  .tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--azul-escuro);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .tab-btn.active {
+    background: var(--azul-escuro);
+    color: var(--branco);
+  }
+
+  .tab-btn:not(.active):hover {
+    background: #d7f0da;
+  }
+
+  .painel {
+    display: none;
+  }
+
+  .painel.ativo {
+    display: block;
+  }
+
   form {
     padding: 24px;
     display: flex;
@@ -76,7 +115,7 @@
     display: block;
   }
 
-  input {
+  input, select {
     width: 100%;
     padding: 10px 12px;
     border: 1.5px solid #cfe8d1;
@@ -85,9 +124,10 @@
     color: var(--azul-escuro);
     background: var(--verde-claro-2);
     transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
   }
 
-  input:focus {
+  input:focus, select:focus {
     outline: none;
     border-color: var(--azul-escuro);
     box-shadow: 0 0 0 3px rgba(13, 59, 102, 0.12);
@@ -155,6 +195,40 @@
     background: #f0c0c0;
   }
 
+  .address-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    border: 1.5px solid var(--verde-claro);
+    border-radius: 10px;
+    background: #fbfffc;
+  }
+
+  .address-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--azul-escuro);
+    margin-bottom: -2px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 0.8fr;
+    gap: 10px;
+  }
+
+  .grid-2 .field-group label,
+  .grid-3 .field-group label {
+    font-size: 12px;
+  }
+
   .actions {
     display: flex;
     gap: 10px;
@@ -214,7 +288,11 @@
     text-align: center;
     font-size: 11px;
     color: #9fb5c7;
-    padding: 12px;
+    padding: 12px 20px;
+  }
+
+  footer p {
+    margin: 4px 0;
   }
 </style>
 </head>
@@ -223,57 +301,231 @@
 <div class="card">
   <header>
     <h1>Email Padrão</h1>
-    <p>Coleta de Veículos · Evento Carbank</p>
+    <p id="subtitulo">Coleta de Veículos · Evento Carbank</p>
   </header>
 
-  <nav style="text-align:center; padding:10px 24px 0;">
-    <a href="boleto.html" style="font-size:12px; color:var(--azul-escuro); text-decoration:none; border-bottom:1px dashed var(--verde-claro);">Ir para Solicitação de Boleto →</a>
-  </nav>
+  <div class="tabs">
+    <button type="button" class="tab-btn" id="tabBoletoBtn">Solicitação de Boleto</button>
+    <button type="button" class="tab-btn active" id="tabColetaBtn">Coleta de Veículos</button>
+  </div>
 
-  <form id="emailForm">
-    <div class="field-group">
-      <label for="destinatario">E-mail de destino</label>
-      <input type="email" id="destinatario" placeholder="destino@exemplo.com" required>
-      <span class="hint">Salvo automaticamente no navegador.</span>
-    </div>
+  <!-- ===================== PAINEL: COLETA DE VEÍCULOS ===================== -->
+  <div class="painel ativo" id="painelColeta">
+    <form id="emailForm">
+      <div class="field-group">
+        <label for="destinatario">E-mail de destino</label>
+        <select id="destinatario" required>
+          <option value="seminovos@vwfs.com" selected>seminovos@vwfs.com</option>
+        </select>
+      </div>
 
-    <div class="field-group">
-      <label for="dataEvento">Data do evento</label>
-      <input type="date" id="dataEvento" required>
-    </div>
+      <div class="field-group">
+        <label for="dataEvento">Data do evento</label>
+        <input type="date" id="dataEvento" required>
+      </div>
 
-    <div class="field-group">
-      <label for="loja">Nome da loja</label>
-      <input type="text" id="loja" placeholder="Ex: Loja Carbank Osasco" required>
-    </div>
+      <div class="field-group">
+        <label for="loja">Nome da loja</label>
+        <input type="text" id="loja" required>
+      </div>
 
-    <div class="field-group">
-      <label for="cnpj">CNPJ</label>
-      <input type="text" id="cnpj" placeholder="00.000.000/0000-00" required>
-    </div>
+      <div class="field-group">
+        <label for="cnpj">CNPJ</label>
+        <input type="text" id="cnpj" required>
+      </div>
 
-    <div class="field-group">
-      <label for="telefone">Telefone de contato</label>
-      <input type="text" id="telefone" placeholder="(00) 00000-0000" required>
-    </div>
+      <div class="field-group">
+        <label for="telefone">Telefone de contato</label>
+        <input type="text" id="telefone" required>
+      </div>
 
-    <div class="field-group">
-      <label>Placa(s)</label>
-      <div class="placas-wrapper" id="placasWrapper"></div>
-      <span class="hint">Clique no + para adicionar mais placas.</span>
-    </div>
+      <div class="field-group">
+        <label>Placa(s)</label>
+        <div class="placas-wrapper" id="placasWrapper"></div>
+        <span class="hint">Clique no + para adicionar mais placas.</span>
+      </div>
 
-    <div class="actions">
-      <button type="submit" class="primary">Gerar e-mail</button>
-      <button type="button" class="secondary" id="limparBtn">Limpar</button>
-    </div>
-    <div class="status" id="status"></div>
-  </form>
+      <div class="actions">
+        <button type="submit" class="primary">Gerar e-mail</button>
+        <button type="button" class="secondary" id="limparBtn">Limpar</button>
+      </div>
+      <div class="status" id="status"></div>
+    </form>
+  </div>
+
+  <!-- ===================== PAINEL: SOLICITAÇÃO DE BOLETO ===================== -->
+  <div class="painel" id="painelBoleto">
+    <form id="boletoForm">
+      <div class="field-group">
+        <label for="destinatarioBoleto">E-mail de destino</label>
+        <select id="destinatarioBoleto" required>
+          <option value="seminovos@vwfs.com" selected>seminovos@vwfs.com</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label for="lojaBoleto">Nome da loja</label>
+        <input type="text" id="lojaBoleto" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cnpjBoleto">CNPJ</label>
+        <input type="text" id="cnpjBoleto" required>
+      </div>
+
+      <div class="field-group">
+        <label for="placaBoleto">Placa</label>
+        <input type="text" id="placaBoleto" style="text-transform:uppercase" required>
+      </div>
+
+      <div class="field-group">
+        <label for="kmAtualBoleto">Km atual</label>
+        <input type="text" id="kmAtualBoleto" required>
+      </div>
+
+      <div class="field-group">
+        <label for="nomeClienteBoleto">Nome do cliente</label>
+        <input type="text" id="nomeClienteBoleto" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cpfBoleto">CPF</label>
+        <input type="text" id="cpfBoleto" required>
+      </div>
+
+      <div class="address-block">
+        <span class="address-title">Endereço do cliente</span>
+
+        <div class="field-group">
+          <label for="ruaClienteBoleto">Rua/Avenida</label>
+          <input type="text" id="ruaClienteBoleto" required>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label for="numeroClienteBoleto">Nº</label>
+            <input type="text" id="numeroClienteBoleto" required>
+          </div>
+          <div class="field-group">
+            <label for="bairroClienteBoleto">Bairro</label>
+            <input type="text" id="bairroClienteBoleto" required>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="field-group">
+            <label for="cepClienteBoleto">CEP</label>
+            <input type="text" id="cepClienteBoleto" required>
+          </div>
+          <div class="field-group">
+            <label for="cidadeClienteBoleto">Cidade</label>
+            <input type="text" id="cidadeClienteBoleto" required>
+          </div>
+          <div class="field-group">
+            <label for="ufClienteBoleto">UF</label>
+            <select id="ufClienteBoleto" required>
+              <option value="" disabled selected></option>
+              <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+              <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+              <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+              <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+              <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+              <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+              <option>SP</option><option>SE</option><option>TO</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="valorRepasseBoleto">Valor do repasse</label>
+        <input type="text" id="valorRepasseBoleto" required>
+      </div>
+
+      <div class="address-block">
+        <span class="address-title">Endereço para envio do documento</span>
+
+        <div class="field-group">
+          <label for="ruaEnvioBoleto">Rua/Avenida</label>
+          <input type="text" id="ruaEnvioBoleto" required>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label for="numeroEnvioBoleto">Nº</label>
+            <input type="text" id="numeroEnvioBoleto" required>
+          </div>
+          <div class="field-group">
+            <label for="bairroEnvioBoleto">Bairro</label>
+            <input type="text" id="bairroEnvioBoleto" required>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="field-group">
+            <label for="cepEnvioBoleto">CEP</label>
+            <input type="text" id="cepEnvioBoleto" required>
+          </div>
+          <div class="field-group">
+            <label for="cidadeEnvioBoleto">Cidade</label>
+            <input type="text" id="cidadeEnvioBoleto" required>
+          </div>
+          <div class="field-group">
+            <label for="ufEnvioBoleto">UF</label>
+            <select id="ufEnvioBoleto" required>
+              <option value="" disabled selected></option>
+              <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+              <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+              <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+              <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+              <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+              <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+              <option>SP</option><option>SE</option><option>TO</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="primary">Gerar e-mail</button>
+        <button type="button" class="secondary" id="limparBoletoBtn">Limpar</button>
+      </div>
+      <div class="status" id="statusBoleto"></div>
+    </form>
+  </div>
 </div>
 
-<footer>Lembre-se de anexar a CNH do responsável antes de enviar — o link de e-mail não anexa arquivos automaticamente.</footer>
+<footer>
+  <p>Lembre-se de anexar a CNH do responsável antes de enviar (Coleta de Veículos) — o link de e-mail não anexa arquivos automaticamente.</p>
+  <p>Lembre-se de anexar o print da oferta do e-mail antes de enviar (Solicitação de Boleto) — o link de e-mail não anexa arquivos automaticamente.</p>
+</footer>
 
 <script>
+  /* ===================== NAVEGAÇÃO ENTRE ABAS ===================== */
+  const tabColetaBtn = document.getElementById('tabColetaBtn');
+  const tabBoletoBtn = document.getElementById('tabBoletoBtn');
+  const painelColeta = document.getElementById('painelColeta');
+  const painelBoleto = document.getElementById('painelBoleto');
+  const subtitulo = document.getElementById('subtitulo');
+
+  const SUBTITULOS = {
+    coleta: 'Coleta de Veículos · Evento Carbank',
+    boleto: 'Solicitação de Boleto · Envio ao financeiro'
+  };
+
+  function mostrarAba(aba) {
+    const ehColeta = aba === 'coleta';
+    painelColeta.classList.toggle('ativo', ehColeta);
+    painelBoleto.classList.toggle('ativo', !ehColeta);
+    tabColetaBtn.classList.toggle('active', ehColeta);
+    tabBoletoBtn.classList.toggle('active', !ehColeta);
+    subtitulo.textContent = SUBTITULOS[aba];
+  }
+
+  tabColetaBtn.addEventListener('click', () => mostrarAba('coleta'));
+  tabBoletoBtn.addEventListener('click', () => mostrarAba('boleto'));
+
+  /* ===================== FORMULÁRIO: COLETA DE VEÍCULOS ===================== */
   const destinatarioInput = document.getElementById('destinatario');
   const dataInput = document.getElementById('dataEvento');
   const lojaInput = document.getElementById('loja');
@@ -285,29 +537,24 @@
   const limparBtn = document.getElementById('limparBtn');
 
   const CAMPOS_PERSISTENTES = {
-    destinatario: 'emailPadrao_destinatario',
     loja: 'emailPadrao_loja',
     cnpj: 'emailPadrao_cnpj',
     telefone: 'emailPadrao_telefone'
   };
 
-  // Restaura dados salvos no cache do navegador
   function restaurarCampo(input, chave) {
     const salvo = localStorage.getItem(chave);
     if (salvo) input.value = salvo;
   }
-  restaurarCampo(destinatarioInput, CAMPOS_PERSISTENTES.destinatario);
   restaurarCampo(lojaInput, CAMPOS_PERSISTENTES.loja);
   restaurarCampo(cnpjInput, CAMPOS_PERSISTENTES.cnpj);
   restaurarCampo(telefoneInput, CAMPOS_PERSISTENTES.telefone);
 
-  if (destinatarioInput.value) {
+  if (lojaInput.value) {
     status.textContent = 'Dados salvos carregados do navegador.';
   }
 
-  // Salva automaticamente ao digitar/alterar
   [
-    [destinatarioInput, CAMPOS_PERSISTENTES.destinatario],
     [lojaInput, CAMPOS_PERSISTENTES.loja],
     [cnpjInput, CAMPOS_PERSISTENTES.cnpj],
     [telefoneInput, CAMPOS_PERSISTENTES.telefone]
@@ -317,7 +564,39 @@
     });
   });
 
-  // --- Campos de Placa dinâmicos ---
+  function maskCNPJColeta(valor) {
+    return valor.replace(/\D/g, '').slice(0, 14)
+      .replace(/^(\d{2})(\d)/, '$1.$2')
+      .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+      .replace(/\.(\d{3})(\d)/, '.$1/$2')
+      .replace(/(\d{4})(\d)/, '$1-$2');
+  }
+
+  function maskTelefone(valor) {
+    let v = valor.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 10) {
+      return v.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+    }
+    if (v.length > 6) {
+      return v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+    }
+    if (v.length > 2) {
+      return v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+    }
+    if (v.length > 0) {
+      return v.replace(/(\d{0,2})/, '($1');
+    }
+    return '';
+  }
+
+  cnpjInput.addEventListener('input', () => {
+    cnpjInput.value = maskCNPJColeta(cnpjInput.value);
+  });
+
+  telefoneInput.addEventListener('input', () => {
+    telefoneInput.value = maskTelefone(telefoneInput.value);
+  });
+
   function criarLinhaPlaca(comBotaoAdd) {
     const row = document.createElement('div');
     row.className = 'placa-row';
@@ -325,7 +604,6 @@
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'placa-input';
-    input.placeholder = 'ABC-1234';
     input.maxLength = 8;
 
     row.appendChild(input);
@@ -371,7 +649,7 @@
   }
 
   function obterPlacas() {
-    return Array.from(document.querySelectorAll('.placa-input'))
+    return Array.from(document.querySelectorAll('#placasWrapper .placa-input'))
       .map(el => el.value.trim().toUpperCase())
       .filter(v => v.length > 0);
   }
@@ -417,11 +695,152 @@ Em anexo a CNH do responsável.`;
     status.textContent = 'Abrindo seu programa de e-mail...';
   });
 
-  // Botão Limpar: reseta apenas data do evento e placas
   limparBtn.addEventListener('click', () => {
     dataInput.value = '';
     resetarPlacas();
     status.textContent = 'Data e placas limpas. Os demais dados continuam salvos.';
+  });
+
+  /* ===================== FORMULÁRIO: SOLICITAÇÃO DE BOLETO ===================== */
+  const destinatarioBoletoInput = document.getElementById('destinatarioBoleto');
+  const lojaBoletoInput = document.getElementById('lojaBoleto');
+  const cnpjBoletoInput = document.getElementById('cnpjBoleto');
+  const placaBoletoInput = document.getElementById('placaBoleto');
+  const kmAtualBoletoInput = document.getElementById('kmAtualBoleto');
+  const nomeClienteBoletoInput = document.getElementById('nomeClienteBoleto');
+  const cpfBoletoInput = document.getElementById('cpfBoleto');
+  const valorRepasseBoletoInput = document.getElementById('valorRepasseBoleto');
+  const statusBoleto = document.getElementById('statusBoleto');
+  const boletoForm = document.getElementById('boletoForm');
+  const limparBoletoBtn = document.getElementById('limparBoletoBtn');
+
+  const ruaClienteBoletoInput = document.getElementById('ruaClienteBoleto');
+  const numeroClienteBoletoInput = document.getElementById('numeroClienteBoleto');
+  const bairroClienteBoletoInput = document.getElementById('bairroClienteBoleto');
+  const cepClienteBoletoInput = document.getElementById('cepClienteBoleto');
+  const cidadeClienteBoletoInput = document.getElementById('cidadeClienteBoleto');
+  const ufClienteBoletoInput = document.getElementById('ufClienteBoleto');
+
+  const ruaEnvioBoletoInput = document.getElementById('ruaEnvioBoleto');
+  const numeroEnvioBoletoInput = document.getElementById('numeroEnvioBoleto');
+  const bairroEnvioBoletoInput = document.getElementById('bairroEnvioBoleto');
+  const cepEnvioBoletoInput = document.getElementById('cepEnvioBoleto');
+  const cidadeEnvioBoletoInput = document.getElementById('cidadeEnvioBoleto');
+  const ufEnvioBoletoInput = document.getElementById('ufEnvioBoleto');
+
+  function maskCNPJ(valor) {
+    return valor.replace(/\D/g, '').slice(0, 14)
+      .replace(/^(\d{2})(\d)/, '$1.$2')
+      .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+      .replace(/\.(\d{3})(\d)/, '.$1/$2')
+      .replace(/(\d{4})(\d)/, '$1-$2');
+  }
+
+  function maskCPF(valor) {
+    return valor.replace(/\D/g, '').slice(0, 11)
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  }
+
+  function maskCEP(valor) {
+    return valor.replace(/\D/g, '').slice(0, 8)
+      .replace(/(\d{5})(\d)/, '$1-$2');
+  }
+
+  function maskMoeda(valor) {
+    let digitos = valor.replace(/\D/g, '');
+    if (!digitos) return '';
+    const numero = parseInt(digitos, 10) / 100;
+    return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  cnpjBoletoInput.addEventListener('input', () => {
+    cnpjBoletoInput.value = maskCNPJ(cnpjBoletoInput.value);
+  });
+
+  cpfBoletoInput.addEventListener('input', () => {
+    cpfBoletoInput.value = maskCPF(cpfBoletoInput.value);
+  });
+
+  cepClienteBoletoInput.addEventListener('input', () => {
+    cepClienteBoletoInput.value = maskCEP(cepClienteBoletoInput.value);
+  });
+
+  cepEnvioBoletoInput.addEventListener('input', () => {
+    cepEnvioBoletoInput.value = maskCEP(cepEnvioBoletoInput.value);
+  });
+
+  valorRepasseBoletoInput.addEventListener('input', () => {
+    valorRepasseBoletoInput.value = maskMoeda(valorRepasseBoletoInput.value);
+  });
+
+  boletoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const destinatario = destinatarioBoletoInput.value;
+    const loja = lojaBoletoInput.value.trim();
+    const cnpj = cnpjBoletoInput.value.trim();
+    const placa = placaBoletoInput.value.trim().toUpperCase();
+    const kmAtual = kmAtualBoletoInput.value.trim();
+    const nomeCliente = nomeClienteBoletoInput.value.trim();
+    const cpf = cpfBoletoInput.value.trim();
+    const valorRepasse = valorRepasseBoletoInput.value.trim();
+
+    const ruaCliente = ruaClienteBoletoInput.value.trim();
+    const numeroCliente = numeroClienteBoletoInput.value.trim();
+    const bairroCliente = bairroClienteBoletoInput.value.trim();
+    const cepCliente = cepClienteBoletoInput.value.trim();
+    const cidadeCliente = cidadeClienteBoletoInput.value.trim();
+    const ufCliente = ufClienteBoletoInput.value;
+
+    const ruaEnvio = ruaEnvioBoletoInput.value.trim();
+    const numeroEnvio = numeroEnvioBoletoInput.value.trim();
+    const bairroEnvio = bairroEnvioBoletoInput.value.trim();
+    const cepEnvio = cepEnvioBoletoInput.value.trim();
+    const cidadeEnvio = cidadeEnvioBoletoInput.value.trim();
+    const ufEnvio = ufEnvioBoletoInput.value;
+
+    if (!loja || !cnpj || !placa || !kmAtual || !nomeCliente || !cpf || !valorRepasse ||
+        !ruaCliente || !numeroCliente || !bairroCliente || !cepCliente || !cidadeCliente || !ufCliente ||
+        !ruaEnvio || !numeroEnvio || !bairroEnvio || !cepEnvio || !cidadeEnvio || !ufEnvio) {
+      statusBoleto.textContent = 'Preencha todos os campos antes de gerar o e-mail.';
+      return;
+    }
+
+    const enderecoCliente = `${ruaCliente}, nº ${numeroCliente} - ${bairroCliente} - CEP ${cepCliente} - ${cidadeCliente}/${ufCliente}`;
+    const enderecoEnvio = `${ruaEnvio}, nº ${numeroEnvio} - ${bairroEnvio} - CEP ${cepEnvio} - ${cidadeEnvio}/${ufEnvio}`;
+
+    const assunto = `Solicitação de Boleto - Placa ${placa} - CNPJ ${cnpj} - Nome da loja ${loja}`;
+
+    const corpo =
+`Olá, tudo bem?
+
+Solicito a emissão do boleto conforme os dados abaixo:
+
+Nome da Loja: ${loja}
+CNPJ: ${cnpj}
+Placa: ${placa}
+Km atual: ${kmAtual}
+Nome Cliente: ${nomeCliente}
+CPF: ${cpf}
+Endereço do cliente: ${enderecoCliente}
+Valor do repasse: ${valorRepasse}
+
+Endereço para envio do documento: ${enderecoEnvio}
+
+Documento em anexo: print da oferta do e-mail.`;
+
+    const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+
+    window.location.href = mailtoLink;
+
+    statusBoleto.textContent = 'Abrindo seu programa de e-mail...';
+  });
+
+  limparBoletoBtn.addEventListener('click', () => {
+    boletoForm.reset();
+    statusBoleto.textContent = 'Formulário limpo.';
   });
 </script>
 
