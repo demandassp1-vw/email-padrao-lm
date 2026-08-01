@@ -597,7 +597,7 @@
         <label for="assuntoSuporte">Assunto</label>
         <select id="assuntoSuporte" required>
           <option value="" disabled selected>Selecione o assunto</option>
-          <option value="Multa">Multa</option>
+          <option value="Multa de Trânsito">Multa de Trânsito</option>
           <option value="Chave Reserva">Chave Reserva</option>
           <option value="Boleto com erro">Boleto com erro</option>
           <option value="Envio do documento">Envio do documento</option>
@@ -1050,7 +1050,7 @@ Documento em anexo: print da oferta do email.`;
 
   function gerarDescricaoSuporte(assunto, dataPgtoBR) {
     const DESCRICOES = {
-      'Multa': 'Solicito apoio pois, ao consultarmos os débitos do veículo, identificamos uma multa anterior à data da coleta do carro.',
+      'Multa de Trânsito': 'Solicito apoio pois, ao consultarmos os débitos do veículo, identificamos uma multa anterior à data da coleta do carro.',
       'Chave Reserva': 'Solicito apoio pois o veículo não possui a chave reserva.',
       'Boleto com erro': 'Solicito apoio pois o boleto enviado está com erro.',
       'Envio do documento': `Solicito apoio pois efetuamos o pagamento do boleto no dia ${dataPgtoBR || 'xx/xx/xxxx'} e, até o momento, não recebemos o documento.`
@@ -1113,7 +1113,7 @@ ${descricao}`;
     const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assuntoEmail)}&body=${encodeURIComponent(corpo)}`;
 
     abrirModal(
-      'Confira os dados antes de enviar o email.',
+      'Confira os dados antes de enviar o email. Se houver evidências, anexe-as ao email.',
       mailtoLink,
       statusSuporte
     );
