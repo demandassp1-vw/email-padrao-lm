@@ -443,27 +443,41 @@
       </div>
 
       <div class="field-group">
+        <label for="telefoneBoleto">Telefone c/ DDD</label>
+        <input type="text" id="telefoneBoleto" required>
+      </div>
+
+      <div class="field-group">
+        <label for="emailBoleto">E-MAIL</label>
+        <input type="email" id="emailBoleto" required>
+      </div>
+
+      <div class="field-group">
         <label for="placaBoleto">Placa</label>
         <input type="text" id="placaBoleto" style="text-transform:uppercase" required>
       </div>
 
-      <div class="field-group">
-        <label for="kmAtualBoleto">Km atual</label>
-        <input type="text" id="kmAtualBoleto" required>
-      </div>
-
-      <div class="field-group">
-        <label for="nomeClienteBoleto">Nome do cliente</label>
-        <input type="text" id="nomeClienteBoleto" required>
-      </div>
-
-      <div class="field-group">
-        <label for="cpfBoleto">CPF</label>
-        <input type="text" id="cpfBoleto" required>
-      </div>
-
       <div class="address-block">
-        <span class="address-title">Endereço do cliente</span>
+        <span class="address-title">Dados da ficha de venda</span>
+
+        <div class="field-group">
+          <label for="nomeClienteBoleto">1. Nome ou razão social</label>
+          <input type="text" id="nomeClienteBoleto" required>
+        </div>
+
+        <div class="field-group">
+          <label for="cpfBoleto">2. CPF ou CNPJ</label>
+          <input type="text" id="cpfBoleto" required>
+        </div>
+
+        <div class="field-group">
+          <label for="rgIeBoleto">3. RG ou Inscrição Estadual</label>
+          <input type="text" id="rgIeBoleto" required>
+        </div>
+
+        <div class="field-group">
+          <label style="margin-top:4px;">4. Endereço completo do cliente da ficha de venda (Rua, Número, Bairro, Cidade, CEP)</label>
+        </div>
 
         <div class="field-group">
           <label for="ruaClienteBoleto">Rua/Avenida</label>
@@ -506,13 +520,11 @@
         </div>
       </div>
 
-      <div class="field-group">
-        <label for="valorRepasseBoleto">Valor do repasse</label>
-        <input type="text" id="valorRepasseBoleto" required>
-      </div>
-
       <div class="address-block">
-        <span class="address-title">Endereço para envio do documento</span>
+        <span class="address-title">Endereço completo da loja para envio do ATPV</span>
+        <div class="field-group">
+          <label style="margin-top:-4px;">(Rua, Número, Bairro, Cidade, CEP)</label>
+        </div>
 
         <div class="field-group">
           <label for="ruaEnvioBoleto">Rua/Avenida</label>
@@ -553,6 +565,11 @@
             </select>
           </div>
         </div>
+      </div>
+
+      <div class="field-group">
+        <label for="valorBoletoInput">Valor do boleto</label>
+        <input type="text" id="valorBoletoInput" required>
       </div>
 
       <div class="actions">
@@ -883,11 +900,12 @@ Em anexo a CNH do responsável.`;
   const destinatarioBoletoInput = document.getElementById('destinatarioBoleto');
   const lojaBoletoInput = document.getElementById('lojaBoleto');
   const cnpjBoletoInput = document.getElementById('cnpjBoleto');
+  const telefoneBoletoInput = document.getElementById('telefoneBoleto');
+  const emailBoletoInput = document.getElementById('emailBoleto');
   const placaBoletoInput = document.getElementById('placaBoleto');
-  const kmAtualBoletoInput = document.getElementById('kmAtualBoleto');
   const nomeClienteBoletoInput = document.getElementById('nomeClienteBoleto');
   const cpfBoletoInput = document.getElementById('cpfBoleto');
-  const valorRepasseBoletoInput = document.getElementById('valorRepasseBoleto');
+  const rgIeBoletoInput = document.getElementById('rgIeBoleto');
   const statusBoleto = document.getElementById('statusBoleto');
   const boletoForm = document.getElementById('boletoForm');
   const limparBoletoBtn = document.getElementById('limparBoletoBtn');
@@ -921,6 +939,17 @@ Em anexo a CNH do responsável.`;
       .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
   }
 
+  function maskCpfCnpj(valor) {
+    const digitos = valor.replace(/\D/g, '');
+    return digitos.length > 11 ? maskCNPJ(valor) : maskCPF(valor);
+  }
+
+  function maskTelefone(valor) {
+    return valor.replace(/\D/g, '').slice(0, 11)
+      .replace(/^(\d{2})(\d)/, '($1) $2')
+      .replace(/(\d{4,5})(\d{4})$/, '$1-$2');
+  }
+
   function maskCEP(valor) {
     return valor.replace(/\D/g, '').slice(0, 8)
       .replace(/(\d{5})(\d)/, '$1-$2');
@@ -933,12 +962,21 @@ Em anexo a CNH do responsável.`;
     return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
+  const valorBoletoInput = document.getElementById('valorBoletoInput');
+  valorBoletoInput.addEventListener('input', () => {
+    valorBoletoInput.value = maskMoeda(valorBoletoInput.value);
+  });
+
   cnpjBoletoInput.addEventListener('input', () => {
     cnpjBoletoInput.value = maskCNPJ(cnpjBoletoInput.value);
   });
 
+  telefoneBoletoInput.addEventListener('input', () => {
+    telefoneBoletoInput.value = maskTelefone(telefoneBoletoInput.value);
+  });
+
   cpfBoletoInput.addEventListener('input', () => {
-    cpfBoletoInput.value = maskCPF(cpfBoletoInput.value);
+    cpfBoletoInput.value = maskCpfCnpj(cpfBoletoInput.value);
   });
 
   cepClienteBoletoInput.addEventListener('input', () => {
@@ -949,21 +987,18 @@ Em anexo a CNH do responsável.`;
     cepEnvioBoletoInput.value = maskCEP(cepEnvioBoletoInput.value);
   });
 
-  valorRepasseBoletoInput.addEventListener('input', () => {
-    valorRepasseBoletoInput.value = maskMoeda(valorRepasseBoletoInput.value);
-  });
-
   boletoForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const destinatario = destinatarioBoletoInput.value;
     const loja = lojaBoletoInput.value.trim();
     const cnpj = cnpjBoletoInput.value.trim();
+    const telefone = telefoneBoletoInput.value.trim();
+    const email = emailBoletoInput.value.trim();
     const placa = placaBoletoInput.value.trim().toUpperCase();
-    const kmAtual = kmAtualBoletoInput.value.trim();
     const nomeCliente = nomeClienteBoletoInput.value.trim();
     const cpf = cpfBoletoInput.value.trim();
-    const valorRepasse = valorRepasseBoletoInput.value.trim();
+    const rgIe = rgIeBoletoInput.value.trim();
 
     const ruaCliente = ruaClienteBoletoInput.value.trim();
     const numeroCliente = numeroClienteBoletoInput.value.trim();
@@ -978,10 +1013,11 @@ Em anexo a CNH do responsável.`;
     const cepEnvio = cepEnvioBoletoInput.value.trim();
     const cidadeEnvio = cidadeEnvioBoletoInput.value.trim();
     const ufEnvio = ufEnvioBoletoInput.value;
+    const valorBoleto = valorBoletoInput.value.trim();
 
-    if (!loja || !cnpj || !placa || !kmAtual || !nomeCliente || !cpf || !valorRepasse ||
+    if (!loja || !cnpj || !telefone || !email || !placa || !nomeCliente || !cpf || !rgIe ||
         !ruaCliente || !numeroCliente || !bairroCliente || !cepCliente || !cidadeCliente || !ufCliente ||
-        !ruaEnvio || !numeroEnvio || !bairroEnvio || !cepEnvio || !cidadeEnvio || !ufEnvio) {
+        !ruaEnvio || !numeroEnvio || !bairroEnvio || !cepEnvio || !cidadeEnvio || !ufEnvio || !valorBoleto) {
       statusBoleto.textContent = 'Preencha todos os campos antes de gerar o email.';
       return;
     }
@@ -989,25 +1025,28 @@ Em anexo a CNH do responsável.`;
     const enderecoCliente = `${ruaCliente}, nº ${numeroCliente} - ${bairroCliente} - CEP ${cepCliente} - ${cidadeCliente}/${ufCliente}`;
     const enderecoEnvio = `${ruaEnvio}, nº ${numeroEnvio} - ${bairroEnvio} - CEP ${cepEnvio} - ${cidadeEnvio}/${ufEnvio}`;
 
-    const assunto = `Solicitação de Boleto - Placa ${placa} - CNPJ ${cnpj} - Nome da loja ${loja}`;
+    const assunto = `Boletos - Novos Negócios | Placa: ${placa} - Loja: ${loja} - CNPJ: ${cnpj}`;
 
     const corpo =
-`Olá, tudo bem?
+`Dados para solicitação do boleto:
 
-Solicito a emissão do boleto conforme os dados abaixo:
-
-Nome da Loja: ${loja}
+Nome da loja: ${loja}
 CNPJ: ${cnpj}
+Telefone c/ DDD: ${telefone}
+E-MAIL: ${email}
+
 Placa: ${placa}
-Km atual: ${kmAtual}
-Nome Cliente: ${nomeCliente}
-CPF: ${cpf}
-Endereço do cliente: ${enderecoCliente}
-Valor do repasse: ${valorRepasse}
 
-Endereço para envio do documento: ${enderecoEnvio}
+Dados da ficha de venda:
+1. Nome ou razão social: ${nomeCliente}
+2. CPF ou CNPJ: ${cpf}
+3. RG ou Inscrição Estadual: ${rgIe}
+4. Endereço completo do cliente da ficha de venda (Rua, Número, Bairro, Cidade, CEP): ${enderecoCliente}
 
-Documento em anexo: print da oferta do email.`;
+Endereço completo da loja para envio do ATPV:
+(Rua, Número, Bairro, Cidade, CEP): ${enderecoEnvio}
+
+Valor do boleto: ${valorBoleto}`;
 
     const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
 
