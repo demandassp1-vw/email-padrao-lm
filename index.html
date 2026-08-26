@@ -374,23 +374,23 @@
 
   <div class="tabs">
     <button type="button" class="tab-btn active" id="tabBoletoBtn">Solicitação de Boleto</button>
-    <button type="button" class="tab-btn" id="tabColetaBtn">Coleta de Veículos</button>
+    <button type="button" class="tab-btn" id="tabColetaBtn">Documentos</button>
     <button type="button" class="tab-btn" id="tabSuporteBtn">Suporte</button>
   </div>
 
-  <!-- ===================== PAINEL: COLETA DE VEÍCULOS ===================== -->
+  <!-- ===================== PAINEL: DOCUMENTOS ===================== -->
   <div class="painel" id="painelColeta">
     <form id="emailForm">
       <div class="field-group">
         <label for="destinatario">Email de destino</label>
         <select id="destinatario" required>
-          <option value="seminovos@vwfs.com" selected>seminovos@vwfs.com</option>
+          <option value="natacha.silva@lm-mobilidade.com" selected>natacha.silva@lm-mobilidade.com</option>
         </select>
       </div>
 
       <div class="field-group">
-        <label for="dataEvento">Data do evento</label>
-        <input type="date" id="dataEvento" required>
+        <label for="placa">Placa</label>
+        <input type="text" id="placa" style="text-transform:uppercase" required>
       </div>
 
       <div class="field-group">
@@ -403,15 +403,117 @@
         <input type="text" id="cnpj" required>
       </div>
 
-      <div class="field-group">
-        <label for="telefone">Telefone de contato</label>
-        <input type="text" id="telefone" required>
+      <div class="address-block">
+        <span class="address-title">Dados do veículo</span>
+
+        <div class="field-group">
+          <label for="chassi">Chassi</label>
+          <input type="text" id="chassi" required>
+        </div>
+        <div class="field-group">
+          <label for="renavam">Renavam</label>
+          <input type="text" id="renavam" required>
+        </div>
+        <div class="field-group">
+          <label for="hodometro">Hodômetro</label>
+          <input type="text" id="hodometro" required>
+        </div>
+        <div class="field-group">
+          <label for="valorVenda">Valor Venda</label>
+          <input type="text" id="valorVenda" required>
+        </div>
+        <div class="field-group">
+          <label for="modelo">Modelo</label>
+          <input type="text" id="modelo" required>
+        </div>
+        <div class="field-group">
+          <label for="marca">Marca</label>
+          <input type="text" id="marca" required>
+        </div>
+        <div class="field-group">
+          <label for="ufEmplacamento">UF Emplacamento</label>
+          <select id="ufEmplacamento" required>
+            <option value="" disabled selected></option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+            <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+            <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+            <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+            <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+            <option>SP</option><option>SE</option><option>TO</option>
+          </select>
+        </div>
       </div>
 
-      <div class="field-group">
-        <label>Placa(s)</label>
-        <div class="placas-wrapper" id="placasWrapper"></div>
-        <span class="hint">Clique no + para adicionar mais placas.</span>
+      <div class="address-block">
+        <span class="address-title">Dados do cliente</span>
+
+        <div class="field-group">
+          <label for="cpfCnpjCliente">CPF/CNPJ</label>
+          <input type="text" id="cpfCnpjCliente" required>
+        </div>
+        <div class="field-group">
+          <label for="rgCliente">RG</label>
+          <input type="text" id="rgCliente" required>
+        </div>
+        <div class="field-group">
+          <label for="emailCliente">Email</label>
+          <input type="email" id="emailCliente" required>
+        </div>
+        <div class="field-group">
+          <label for="cepCliente">CEP</label>
+          <input type="text" id="cepCliente" required>
+        </div>
+        <div class="field-group">
+          <label for="ufCliente">UF</label>
+          <select id="ufCliente" required>
+            <option value="" disabled selected></option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+            <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+            <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+            <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+            <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+            <option>SP</option><option>SE</option><option>TO</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="cidadeCliente">Cidade</label>
+          <input type="text" id="cidadeCliente" required>
+        </div>
+        <div class="field-group">
+          <label for="enderecoCliente">Endereço</label>
+          <input type="text" id="enderecoCliente" required>
+        </div>
+        <div class="field-group">
+          <label for="numeroCliente">Nº</label>
+          <input type="text" id="numeroCliente" required>
+        </div>
+        <div class="field-group">
+          <label for="complementoCliente">Complemento</label>
+          <input type="text" id="complementoCliente">
+        </div>
+        <div class="field-group">
+          <label for="bairroCliente">Bairro</label>
+          <input type="text" id="bairroCliente" required>
+        </div>
+      </div>
+
+      <div class="address-block">
+        <span class="address-title">Dados da loja</span>
+
+        <div class="field-group">
+          <label for="emailLoja">Email</label>
+          <input type="email" id="emailLoja" required>
+        </div>
+        <div class="field-group">
+          <label for="produtoLoja">Produto</label>
+          <input type="text" id="produtoLoja" required>
+        </div>
+        <div class="field-group">
+          <label for="razaoSocialLoja">Razão Social</label>
+          <input type="text" id="razaoSocialLoja" required>
+        </div>
       </div>
 
       <div class="actions">
@@ -428,7 +530,7 @@
       <div class="field-group">
         <label for="destinatarioBoleto">Email de destino</label>
         <select id="destinatarioBoleto" required>
-          <option value="seminovos@vwfs.com" selected>seminovos@vwfs.com</option>
+          <option value="tiago.freitas@lm-mobilidade.com.br,simone.ribeiro@lm-mobilidade.com.br" selected>tiago.freitas@lm-mobilidade.com.br; simone.ribeiro@lm-mobilidade.com.br</option>
         </select>
       </div>
 
@@ -443,85 +545,17 @@
       </div>
 
       <div class="field-group">
-        <label for="telefoneBoleto">Telefone c/ DDD</label>
-        <input type="text" id="telefoneBoleto" required>
-      </div>
-
-      <div class="field-group">
-        <label for="emailBoleto">E-MAIL</label>
-        <input type="email" id="emailBoleto" required>
-      </div>
-
-      <div class="field-group">
         <label for="placaBoleto">Placa</label>
         <input type="text" id="placaBoleto" style="text-transform:uppercase" required>
       </div>
 
-      <div class="address-block">
-        <span class="address-title">Dados da ficha de venda</span>
-
-        <div class="field-group">
-          <label for="nomeClienteBoleto">1. Nome ou razão social</label>
-          <input type="text" id="nomeClienteBoleto" required>
-        </div>
-
-        <div class="field-group">
-          <label for="cpfBoleto">2. CPF ou CNPJ</label>
-          <input type="text" id="cpfBoleto" required>
-        </div>
-
-        <div class="field-group">
-          <label for="rgIeBoleto">3. RG ou Inscrição Estadual</label>
-          <input type="text" id="rgIeBoleto" required>
-        </div>
-
-        <div class="field-group">
-          <label style="margin-top:4px;">4. Endereço completo do cliente da ficha de venda (Rua, Número, Bairro, Cidade, CEP)</label>
-        </div>
-
-        <div class="field-group">
-          <label for="ruaClienteBoleto">Rua/Avenida</label>
-          <input type="text" id="ruaClienteBoleto" required>
-        </div>
-
-        <div class="grid-2">
-          <div class="field-group">
-            <label for="numeroClienteBoleto">Nº</label>
-            <input type="text" id="numeroClienteBoleto" required>
-          </div>
-          <div class="field-group">
-            <label for="bairroClienteBoleto">Bairro</label>
-            <input type="text" id="bairroClienteBoleto" required>
-          </div>
-        </div>
-
-        <div class="grid-3">
-          <div class="field-group">
-            <label for="cepClienteBoleto">CEP</label>
-            <input type="text" id="cepClienteBoleto" required>
-          </div>
-          <div class="field-group">
-            <label for="cidadeClienteBoleto">Cidade</label>
-            <input type="text" id="cidadeClienteBoleto" required>
-          </div>
-          <div class="field-group">
-            <label for="ufClienteBoleto">UF</label>
-            <select id="ufClienteBoleto" required>
-              <option value="" disabled selected></option>
-              <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
-              <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
-              <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
-              <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
-              <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
-              <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
-              <option>SP</option><option>SE</option><option>TO</option>
-            </select>
-          </div>
-        </div>
+      <div class="field-group">
+        <label for="valorBoletoInput">Valor</label>
+        <input type="text" id="valorBoletoInput" required>
       </div>
 
       <div class="address-block">
-        <span class="address-title">Endereço completo da loja para envio do ATPV</span>
+        <span class="address-title">Endereço da loja</span>
         <div class="field-group">
           <label style="margin-top:-4px;">(Rua, Número, Bairro, Cidade, CEP)</label>
         </div>
@@ -568,8 +602,65 @@
       </div>
 
       <div class="field-group">
-        <label for="valorBoletoInput">Valor do boleto</label>
-        <input type="text" id="valorBoletoInput" required>
+        <label for="nomeClienteBoleto">Nome do cliente</label>
+        <input type="text" id="nomeClienteBoleto" required>
+      </div>
+
+      <div class="field-group">
+        <label for="cpfBoleto">CPF/CNPJ</label>
+        <input type="text" id="cpfBoleto" required>
+      </div>
+
+      <div class="address-block">
+        <span class="address-title">Endereço do cliente</span>
+        <div class="field-group">
+          <label style="margin-top:-4px;">(Rua, Número, Bairro, Cidade, CEP)</label>
+        </div>
+
+        <div class="field-group">
+          <label for="ruaClienteBoleto">Rua/Avenida</label>
+          <input type="text" id="ruaClienteBoleto" required>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label for="numeroClienteBoleto">Nº</label>
+            <input type="text" id="numeroClienteBoleto" required>
+          </div>
+          <div class="field-group">
+            <label for="bairroClienteBoleto">Bairro</label>
+            <input type="text" id="bairroClienteBoleto" required>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="field-group">
+            <label for="cepClienteBoleto">CEP</label>
+            <input type="text" id="cepClienteBoleto" required>
+          </div>
+          <div class="field-group">
+            <label for="cidadeClienteBoleto">Cidade</label>
+            <input type="text" id="cidadeClienteBoleto" required>
+          </div>
+          <div class="field-group">
+            <label for="ufClienteBoleto">UF</label>
+            <select id="ufClienteBoleto" required>
+              <option value="" disabled selected></option>
+              <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+              <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+              <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+              <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+              <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+              <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+              <option>SP</option><option>SE</option><option>TO</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="emailBoleto">Email para envio do boleto</label>
+        <input type="email" id="emailBoleto" required>
       </div>
 
       <div class="actions">
@@ -699,7 +790,7 @@
   const subtitulo = document.getElementById('subtitulo');
 
   const SUBTITULOS = {
-    coleta: 'Coleta de Veículos · Evento Carbank',
+    coleta: 'Documentos · Solicitação de ATPV',
     boleto: 'Solicitação de Boleto · Envio ao financeiro',
     suporte: 'Suporte · Envio de documento, multas, etc.'
   };
@@ -718,44 +809,37 @@
   tabBoletoBtn.addEventListener('click', () => mostrarAba('boleto'));
   tabSuporteBtn.addEventListener('click', () => mostrarAba('suporte'));
 
-  /* ===================== FORMULÁRIO: COLETA DE VEÍCULOS ===================== */
+  /* ===================== FORMULÁRIO: DOCUMENTOS ===================== */
   const destinatarioInput = document.getElementById('destinatario');
-  const dataInput = document.getElementById('dataEvento');
+  const placaInput = document.getElementById('placa');
   const lojaInput = document.getElementById('loja');
   const cnpjInput = document.getElementById('cnpj');
-  const telefoneInput = document.getElementById('telefone');
-  const placasWrapper = document.getElementById('placasWrapper');
+  const chassiInput = document.getElementById('chassi');
+  const renavamInput = document.getElementById('renavam');
+  const hodometroInput = document.getElementById('hodometro');
+  const valorVendaInput = document.getElementById('valorVenda');
+  const modeloInput = document.getElementById('modelo');
+  const marcaInput = document.getElementById('marca');
+  const ufEmplacamentoInput = document.getElementById('ufEmplacamento');
+
+  const cpfCnpjClienteInput = document.getElementById('cpfCnpjCliente');
+  const rgClienteInput = document.getElementById('rgCliente');
+  const emailClienteInput = document.getElementById('emailCliente');
+  const cepClienteInput = document.getElementById('cepCliente');
+  const ufClienteInput = document.getElementById('ufCliente');
+  const cidadeClienteInput = document.getElementById('cidadeCliente');
+  const enderecoClienteInput = document.getElementById('enderecoCliente');
+  const numeroClienteInput = document.getElementById('numeroCliente');
+  const complementoClienteInput = document.getElementById('complementoCliente');
+  const bairroClienteInput = document.getElementById('bairroCliente');
+
+  const emailLojaInput = document.getElementById('emailLoja');
+  const produtoLojaInput = document.getElementById('produtoLoja');
+  const razaoSocialLojaInput = document.getElementById('razaoSocialLoja');
+
   const status = document.getElementById('status');
   const form = document.getElementById('emailForm');
   const limparBtn = document.getElementById('limparBtn');
-
-  const CAMPOS_PERSISTENTES = {
-    loja: 'emailPadrao_loja',
-    cnpj: 'emailPadrao_cnpj',
-    telefone: 'emailPadrao_telefone'
-  };
-
-  function restaurarCampo(input, chave) {
-    const salvo = localStorage.getItem(chave);
-    if (salvo) input.value = salvo;
-  }
-  restaurarCampo(lojaInput, CAMPOS_PERSISTENTES.loja);
-  restaurarCampo(cnpjInput, CAMPOS_PERSISTENTES.cnpj);
-  restaurarCampo(telefoneInput, CAMPOS_PERSISTENTES.telefone);
-
-  if (lojaInput.value) {
-    status.textContent = 'Dados salvos carregados do navegador.';
-  }
-
-  [
-    [lojaInput, CAMPOS_PERSISTENTES.loja],
-    [cnpjInput, CAMPOS_PERSISTENTES.cnpj],
-    [telefoneInput, CAMPOS_PERSISTENTES.telefone]
-  ].forEach(([input, chave]) => {
-    input.addEventListener('input', () => {
-      localStorage.setItem(chave, input.value.trim());
-    });
-  });
 
   function maskCNPJColeta(valor) {
     return valor.replace(/\D/g, '').slice(0, 14)
@@ -765,147 +849,125 @@
       .replace(/(\d{4})(\d)/, '$1-$2');
   }
 
-  function maskTelefone(valor) {
-    let v = valor.replace(/\D/g, '').slice(0, 11);
-    if (v.length > 10) {
-      return v.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
-    }
-    if (v.length > 6) {
-      return v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
-    }
-    if (v.length > 2) {
-      return v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
-    }
-    if (v.length > 0) {
-      return v.replace(/(\d{0,2})/, '($1');
-    }
-    return '';
+  function maskCpfCnpjColeta(valor) {
+    const digitos = valor.replace(/\D/g, '');
+    if (digitos.length > 11) return maskCNPJColeta(valor);
+    return digitos.slice(0, 11)
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  }
+
+  function maskCEPColeta(valor) {
+    return valor.replace(/\D/g, '').slice(0, 8)
+      .replace(/(\d{5})(\d)/, '$1-$2');
   }
 
   cnpjInput.addEventListener('input', () => {
     cnpjInput.value = maskCNPJColeta(cnpjInput.value);
   });
 
-  telefoneInput.addEventListener('input', () => {
-    telefoneInput.value = maskTelefone(telefoneInput.value);
+  cpfCnpjClienteInput.addEventListener('input', () => {
+    cpfCnpjClienteInput.value = maskCpfCnpjColeta(cpfCnpjClienteInput.value);
   });
 
-  function criarLinhaPlaca(comBotaoAdd) {
-    const row = document.createElement('div');
-    row.className = 'placa-row';
-
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.className = 'placa-input';
-    input.maxLength = 8;
-
-    row.appendChild(input);
-
-    if (comBotaoAdd) {
-      const addBtn = document.createElement('button');
-      addBtn.type = 'button';
-      addBtn.className = 'icon-btn add-btn';
-      addBtn.textContent = '+';
-      addBtn.title = 'Adicionar outra placa';
-      addBtn.addEventListener('click', () => {
-        const novaRow = criarLinhaPlaca(false);
-        placasWrapper.appendChild(novaRow);
-        novaRow.querySelector('input').focus();
-      });
-      row.appendChild(addBtn);
-    } else {
-      const removeBtn = document.createElement('button');
-      removeBtn.type = 'button';
-      removeBtn.className = 'icon-btn remove-btn';
-      removeBtn.textContent = '×';
-      removeBtn.title = 'Remover esta placa';
-      removeBtn.addEventListener('click', () => {
-        row.remove();
-      });
-      row.appendChild(removeBtn);
-    }
-
-    return row;
-  }
-
-  function resetarPlacas() {
-    placasWrapper.innerHTML = '';
-    placasWrapper.appendChild(criarLinhaPlaca(true));
-  }
-
-  resetarPlacas();
-
-  function formatarDataBR(valorISO) {
-    if (!valorISO) return '';
-    const [ano, mes, dia] = valorISO.split('-');
-    return `${dia}/${mes}`;
-  }
-
-  function obterPlacas() {
-    return Array.from(document.querySelectorAll('#placasWrapper .placa-input'))
-      .map(el => el.value.trim().toUpperCase())
-      .filter(v => v.length > 0);
-  }
+  cepClienteInput.addEventListener('input', () => {
+    cepClienteInput.value = maskCEPColeta(cepClienteInput.value);
+  });
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const destinatario = destinatarioInput.value.trim();
-    const dataBR = formatarDataBR(dataInput.value);
+    const placa = placaInput.value.trim().toUpperCase();
     const loja = lojaInput.value.trim();
     const cnpj = cnpjInput.value.trim();
-    const telefone = telefoneInput.value.trim();
-    const placas = obterPlacas();
+    const chassi = chassiInput.value.trim();
+    const renavam = renavamInput.value.trim();
+    const hodometro = hodometroInput.value.trim();
+    const valorVenda = valorVendaInput.value.trim();
+    const modelo = modeloInput.value.trim();
+    const marca = marcaInput.value.trim();
+    const ufEmplacamento = ufEmplacamentoInput.value;
 
-    if (!destinatario || !dataBR || !loja || !cnpj || !telefone) {
+    const cpfCnpjCliente = cpfCnpjClienteInput.value.trim();
+    const rgCliente = rgClienteInput.value.trim();
+    const emailCliente = emailClienteInput.value.trim();
+    const cepCliente = cepClienteInput.value.trim();
+    const ufCliente = ufClienteInput.value;
+    const cidadeCliente = cidadeClienteInput.value.trim();
+    const enderecoCliente = enderecoClienteInput.value.trim();
+    const numeroCliente = numeroClienteInput.value.trim();
+    const complementoCliente = complementoClienteInput.value.trim();
+    const bairroCliente = bairroClienteInput.value.trim();
+
+    const emailLoja = emailLojaInput.value.trim();
+    const produtoLoja = produtoLojaInput.value.trim();
+    const razaoSocialLoja = razaoSocialLojaInput.value.trim();
+
+    if (!placa || !loja || !cnpj || !chassi || !renavam || !hodometro || !valorVenda || !modelo || !marca || !ufEmplacamento ||
+        !cpfCnpjCliente || !rgCliente || !emailCliente || !cepCliente || !ufCliente || !cidadeCliente || !enderecoCliente || !numeroCliente || !bairroCliente ||
+        !emailLoja || !produtoLoja || !razaoSocialLoja) {
       status.textContent = 'Preencha todos os campos antes de gerar o email.';
       return;
     }
 
-    const assunto = `Coleta Veículos - Evento Carbank ${dataBR}`;
-
-    const linhasPlacas = placas.length > 0
-      ? placas.join('\n')
-      : '(informar placa)';
+    const assunto = `Documentos | Novos Negócios - Boleto pago - solicitação de ATPV - Placa: ${placa} - Loja: ${loja} - CNPJ: ${cnpj}`;
 
     const corpo =
-`Olá, tudo bem?
+`Prezados(as),
+Abaixo, seguem os dados para preenchimento do documento.
 
-Segue abaixo os dados para a retirada dos carros do evento data ${dataBR}.
+Dados do veículo:
+Placa: ${placa}
+Chassi: ${chassi}
+Renavam: ${renavam}
+Hodômetro: ${hodometro}
+Valor Venda: ${valorVenda}
+Modelo: ${modelo}
+Marca: ${marca}
+UF Emplacamento: ${ufEmplacamento}
 
-Nome da loja: ${loja}
+Dados do Cliente para Preenchimento:
+CPF/CNPJ: ${cpfCnpjCliente}
+RG: ${rgCliente}
+Email: ${emailCliente}
+CEP: ${cepCliente}
+UF: ${ufCliente}
+Cidade: ${cidadeCliente}
+Endereço: ${enderecoCliente}
+Nº: ${numeroCliente}
+Complemento: ${complementoCliente}
+Bairro: ${bairroCliente}
+
+Dados da Loja:
 CNPJ: ${cnpj}
-Tel contato: ${telefone}
-Placa(s):
-${linhasPlacas}
-
-Em anexo a CNH do responsável.`;
+Email: ${emailLoja}
+Produto: ${produtoLoja}
+Razão Social: ${razaoSocialLoja}`;
 
     const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
 
     abrirModal(
-      'Não esqueça de anexar a CNH do responsável pela retirada do veículo antes de enviar o email.',
+      'Confira os dados antes de enviar o email.',
       mailtoLink,
       status
     );
   });
 
   limparBtn.addEventListener('click', () => {
-    dataInput.value = '';
-    resetarPlacas();
-    status.textContent = 'Data e placas limpas. Os demais dados continuam salvos.';
+    form.reset();
+    status.textContent = 'Formulário limpo.';
   });
 
   /* ===================== FORMULÁRIO: SOLICITAÇÃO DE BOLETO ===================== */
   const destinatarioBoletoInput = document.getElementById('destinatarioBoleto');
   const lojaBoletoInput = document.getElementById('lojaBoleto');
   const cnpjBoletoInput = document.getElementById('cnpjBoleto');
-  const telefoneBoletoInput = document.getElementById('telefoneBoleto');
   const emailBoletoInput = document.getElementById('emailBoleto');
   const placaBoletoInput = document.getElementById('placaBoleto');
   const nomeClienteBoletoInput = document.getElementById('nomeClienteBoleto');
   const cpfBoletoInput = document.getElementById('cpfBoleto');
-  const rgIeBoletoInput = document.getElementById('rgIeBoleto');
   const statusBoleto = document.getElementById('statusBoleto');
   const boletoForm = document.getElementById('boletoForm');
   const limparBoletoBtn = document.getElementById('limparBoletoBtn');
@@ -944,12 +1006,6 @@ Em anexo a CNH do responsável.`;
     return digitos.length > 11 ? maskCNPJ(valor) : maskCPF(valor);
   }
 
-  function maskTelefone(valor) {
-    return valor.replace(/\D/g, '').slice(0, 11)
-      .replace(/^(\d{2})(\d)/, '($1) $2')
-      .replace(/(\d{4,5})(\d{4})$/, '$1-$2');
-  }
-
   function maskCEP(valor) {
     return valor.replace(/\D/g, '').slice(0, 8)
       .replace(/(\d{5})(\d)/, '$1-$2');
@@ -971,10 +1027,6 @@ Em anexo a CNH do responsável.`;
     cnpjBoletoInput.value = maskCNPJ(cnpjBoletoInput.value);
   });
 
-  telefoneBoletoInput.addEventListener('input', () => {
-    telefoneBoletoInput.value = maskTelefone(telefoneBoletoInput.value);
-  });
-
   cpfBoletoInput.addEventListener('input', () => {
     cpfBoletoInput.value = maskCpfCnpj(cpfBoletoInput.value);
   });
@@ -993,12 +1045,10 @@ Em anexo a CNH do responsável.`;
     const destinatario = destinatarioBoletoInput.value;
     const loja = lojaBoletoInput.value.trim();
     const cnpj = cnpjBoletoInput.value.trim();
-    const telefone = telefoneBoletoInput.value.trim();
     const email = emailBoletoInput.value.trim();
     const placa = placaBoletoInput.value.trim().toUpperCase();
     const nomeCliente = nomeClienteBoletoInput.value.trim();
     const cpf = cpfBoletoInput.value.trim();
-    const rgIe = rgIeBoletoInput.value.trim();
 
     const ruaCliente = ruaClienteBoletoInput.value.trim();
     const numeroCliente = numeroClienteBoletoInput.value.trim();
@@ -1015,7 +1065,7 @@ Em anexo a CNH do responsável.`;
     const ufEnvio = ufEnvioBoletoInput.value;
     const valorBoleto = valorBoletoInput.value.trim();
 
-    if (!loja || !cnpj || !telefone || !email || !placa || !nomeCliente || !cpf || !rgIe ||
+    if (!loja || !cnpj || !email || !placa || !nomeCliente || !cpf ||
         !ruaCliente || !numeroCliente || !bairroCliente || !cepCliente || !cidadeCliente || !ufCliente ||
         !ruaEnvio || !numeroEnvio || !bairroEnvio || !cepEnvio || !cidadeEnvio || !ufEnvio || !valorBoleto) {
       statusBoleto.textContent = 'Preencha todos os campos antes de gerar o email.';
@@ -1023,30 +1073,26 @@ Em anexo a CNH do responsável.`;
     }
 
     const enderecoCliente = `${ruaCliente}, nº ${numeroCliente} - ${bairroCliente} - CEP ${cepCliente} - ${cidadeCliente}/${ufCliente}`;
-    const enderecoEnvio = `${ruaEnvio}, nº ${numeroEnvio} - ${bairroEnvio} - CEP ${cepEnvio} - ${cidadeEnvio}/${ufEnvio}`;
+    const enderecoLoja = `${ruaEnvio}, nº ${numeroEnvio} - ${bairroEnvio} - CEP ${cepEnvio} - ${cidadeEnvio}/${ufEnvio}`;
 
-    const assunto = `Boletos - Novos Negócios | Placa: ${placa} - Loja: ${loja} - CNPJ: ${cnpj}`;
+    const assunto = `Solicitações de Boletos Novos Negócios | Placa: ${placa} - Loja: ${loja} - CNPJ: ${cnpj}`;
 
     const corpo =
-`Dados para solicitação do boleto:
+`Prezados(as),
+Solicito o boleto e o preenchimento do ATPV com os seguintes dados:
+
+Placa: ${placa}
+Valor: ${valorBoleto}
 
 Nome da loja: ${loja}
 CNPJ: ${cnpj}
-Telefone c/ DDD: ${telefone}
-E-MAIL: ${email}
+Endereço da loja: ${enderecoLoja}
 
-Placa: ${placa}
+Nome do cliente: ${nomeCliente}
+CPF/CNPJ: ${cpf}
+Endereço do cliente: ${enderecoCliente}
 
-Dados da ficha de venda:
-1. Nome ou razão social: ${nomeCliente}
-2. CPF ou CNPJ: ${cpf}
-3. RG ou Inscrição Estadual: ${rgIe}
-4. Endereço completo do cliente da ficha de venda (Rua, Número, Bairro, Cidade, CEP): ${enderecoCliente}
-
-Endereço completo da loja para envio do ATPV:
-(Rua, Número, Bairro, Cidade, CEP): ${enderecoEnvio}
-
-Valor do boleto: ${valorBoleto}`;
+Email para envio do boleto: ${email}`;
 
     const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
 
