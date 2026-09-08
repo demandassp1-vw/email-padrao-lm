@@ -237,7 +237,7 @@
   }
 
   button.primary {
-    flex: 2;
+    flex: 1;
     background: var(--verde-claro);
     color: var(--azul-escuro-2);
     border: none;
@@ -275,6 +275,27 @@
   }
 
   button.secondary:active {
+    transform: scale(0.98);
+  }
+
+  button.copiar {
+    flex: 1;
+    background: #bfe0f7;
+    color: #000000;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  button.copiar:hover {
+    background: #a3d3f2;
+  }
+
+  button.copiar:active {
     transform: scale(0.98);
   }
 
@@ -517,6 +538,7 @@
       </div>
 
       <div class="actions">
+        <button type="button" class="copiar" id="copiarBtn">Copiar dados para email</button>
         <button type="submit" class="primary">Gerar email</button>
         <button type="button" class="secondary" id="limparBtn">Limpar</button>
       </div>
@@ -664,6 +686,7 @@
       </div>
 
       <div class="actions">
+        <button type="button" class="copiar" id="copiarBoletoBtn">Copiar dados para email</button>
         <button type="submit" class="primary">Gerar email</button>
         <button type="button" class="secondary" id="limparBoletoBtn">Limpar</button>
       </div>
@@ -723,6 +746,7 @@
       </div>
 
       <div class="actions">
+        <button type="button" class="copiar" id="copiarSuporteBtn">Copiar dados para email</button>
         <button type="submit" class="primary">Gerar email</button>
         <button type="button" class="secondary" id="limparSuporteBtn">Limpar</button>
       </div>
@@ -744,6 +768,35 @@
 </div>
 
 <script>
+  /* ===================== UTIL: COPIAR PARA ÁREA DE TRANSFERÊNCIA ===================== */
+  function copiarParaAreaDeTransferencia(texto, statusEl, mensagemSucesso) {
+    function marcarSucesso() {
+      if (statusEl) statusEl.textContent = mensagemSucesso || 'Dados copiados! Cole no corpo do email.';
+    }
+    function marcarErro() {
+      if (statusEl) statusEl.textContent = 'Não foi possível copiar automaticamente. Selecione e copie manualmente.';
+    }
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(texto).then(marcarSucesso).catch(marcarErro);
+    } else {
+      const textarea = document.createElement('textarea');
+      textarea.value = texto;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        marcarSucesso();
+      } catch (err) {
+        marcarErro();
+      }
+      document.body.removeChild(textarea);
+    }
+  }
+
   /* ===================== MODAL DE ATENÇÃO ===================== */
   const modalOverlay = document.getElementById('modalOverlay');
   const modalMensagem = document.getElementById('modalMensagem');
@@ -840,6 +893,7 @@
   const status = document.getElementById('status');
   const form = document.getElementById('emailForm');
   const limparBtn = document.getElementById('limparBtn');
+  const copiarBtn = document.getElementById('copiarBtn');
 
   function maskCNPJColeta(valor) {
     return valor.replace(/\D/g, '').slice(0, 14)
@@ -875,9 +929,7 @@
     cepClienteInput.value = maskCEPColeta(cepClienteInput.value);
   });
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
+  function montarDadosDocumentos() {
     const destinatario = destinatarioInput.value.trim();
     const placa = placaInput.value.trim().toUpperCase();
     const loja = lojaInput.value.trim();
@@ -908,8 +960,7 @@
     if (!placa || !loja || !cnpj || !chassi || !renavam || !hodometro || !valorVenda || !modelo || !marca || !ufEmplacamento ||
         !cpfCnpjCliente || !rgCliente || !emailCliente || !cepCliente || !ufCliente || !cidadeCliente || !enderecoCliente || !numeroCliente || !bairroCliente ||
         !emailLoja || !produtoLoja || !razaoSocialLoja) {
-      status.textContent = 'Preencha todos os campos antes de gerar o email.';
-      return;
+      return null;
     }
 
     const assunto = `Documentos | Novos Negócios - Boleto pago - solicitação de ATPV - Placa: ${placa} - Loja: ${loja} - CNPJ: ${cnpj}`;
@@ -946,13 +997,35 @@ Email: ${emailLoja}
 Produto: ${produtoLoja}
 Razão Social: ${razaoSocialLoja}`;
 
-    const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+    return { destinatario, assunto, corpo };
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const dados = montarDadosDocumentos();
+    if (!dados) {
+      status.textContent = 'Preencha todos os campos antes de gerar o email.';
+      return;
+    }
+
+    const mailtoLink = `mailto:${encodeURIComponent(dados.destinatario)}?subject=${encodeURIComponent(dados.assunto)}&body=${encodeURIComponent(dados.corpo)}`;
 
     abrirModal(
       'Confira os dados antes de enviar o email.',
       mailtoLink,
       status
     );
+  });
+
+  copiarBtn.addEventListener('click', () => {
+    const dados = montarDadosDocumentos();
+    if (!dados) {
+      status.textContent = 'Preencha todos os campos antes de copiar.';
+      return;
+    }
+    const texto = `Destinatário(s): ${dados.destinatario}\nAssunto: ${dados.assunto}\n\n${dados.corpo}`;
+    copiarParaAreaDeTransferencia(texto, status);
   });
 
   limparBtn.addEventListener('click', () => {
@@ -971,6 +1044,7 @@ Razão Social: ${razaoSocialLoja}`;
   const statusBoleto = document.getElementById('statusBoleto');
   const boletoForm = document.getElementById('boletoForm');
   const limparBoletoBtn = document.getElementById('limparBoletoBtn');
+  const copiarBoletoBtn = document.getElementById('copiarBoletoBtn');
 
   const ruaClienteBoletoInput = document.getElementById('ruaClienteBoleto');
   const numeroClienteBoletoInput = document.getElementById('numeroClienteBoleto');
@@ -1039,9 +1113,7 @@ Razão Social: ${razaoSocialLoja}`;
     cepEnvioBoletoInput.value = maskCEP(cepEnvioBoletoInput.value);
   });
 
-  boletoForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
+  function montarDadosBoleto() {
     const destinatario = destinatarioBoletoInput.value;
     const loja = lojaBoletoInput.value.trim();
     const cnpj = cnpjBoletoInput.value.trim();
@@ -1068,8 +1140,7 @@ Razão Social: ${razaoSocialLoja}`;
     if (!loja || !cnpj || !email || !placa || !nomeCliente || !cpf ||
         !ruaCliente || !numeroCliente || !bairroCliente || !cepCliente || !cidadeCliente || !ufCliente ||
         !ruaEnvio || !numeroEnvio || !bairroEnvio || !cepEnvio || !cidadeEnvio || !ufEnvio || !valorBoleto) {
-      statusBoleto.textContent = 'Preencha todos os campos antes de gerar o email.';
-      return;
+      return null;
     }
 
     const enderecoCliente = `${ruaCliente}, nº ${numeroCliente} - ${bairroCliente} - CEP ${cepCliente} - ${cidadeCliente}/${ufCliente}`;
@@ -1094,13 +1165,35 @@ Endereço do cliente: ${enderecoCliente}
 
 Email para envio do boleto: ${email}`;
 
-    const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+    return { destinatario, assunto, corpo };
+  }
+
+  boletoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const dados = montarDadosBoleto();
+    if (!dados) {
+      statusBoleto.textContent = 'Preencha todos os campos antes de gerar o email.';
+      return;
+    }
+
+    const mailtoLink = `mailto:${encodeURIComponent(dados.destinatario)}?subject=${encodeURIComponent(dados.assunto)}&body=${encodeURIComponent(dados.corpo)}`;
 
     abrirModal(
       'Lembre-se de anexar o print da oferta do email antes de enviar.',
       mailtoLink,
       statusBoleto
     );
+  });
+
+  copiarBoletoBtn.addEventListener('click', () => {
+    const dados = montarDadosBoleto();
+    if (!dados) {
+      statusBoleto.textContent = 'Preencha todos os campos antes de copiar.';
+      return;
+    }
+    const texto = `Destinatário(s): ${dados.destinatario}\nAssunto: ${dados.assunto}\n\n${dados.corpo}`;
+    copiarParaAreaDeTransferencia(texto, statusBoleto);
   });
 
   limparBoletoBtn.addEventListener('click', () => {
@@ -1122,6 +1215,7 @@ Email para envio do boleto: ${email}`;
   const statusSuporte = document.getElementById('statusSuporte');
   const suporteForm = document.getElementById('suporteForm');
   const limparSuporteBtn = document.getElementById('limparSuporteBtn');
+  const copiarSuporteBtn = document.getElementById('copiarSuporteBtn');
 
   function formatarDataCompleta(valorISO) {
     if (!valorISO) return '';
@@ -1163,9 +1257,7 @@ Email para envio do boleto: ${email}`;
   assuntoSuporteInput.addEventListener('change', atualizarDescricaoSuporte);
   dataPgtoBoletoSuporteInput.addEventListener('change', atualizarDescricaoSuporte);
 
-  suporteForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
+  function montarDadosSuporte() {
     const destinatario = destinatarioSuporteInput.value;
     const loja = lojaSuporteInput.value.trim();
     const cnpj = cnpjSuporteInput.value.trim();
@@ -1176,8 +1268,7 @@ Email para envio do boleto: ${email}`;
     const dataPgtoBR = formatarDataCompleta(dataPgtoBoletoSuporteInput.value);
 
     if (!loja || !cnpj || !placa || !dataRetiradaBR || !assunto || (ehEnvioDocumento && !dataPgtoBR)) {
-      statusSuporte.textContent = 'Preencha todos os campos antes de gerar o email.';
-      return;
+      return null;
     }
 
     const descricao = gerarDescricaoSuporte(assunto, dataPgtoBR);
@@ -1195,13 +1286,35 @@ Assunto: ${assunto}
 
 ${descricao}`;
 
-    const mailtoLink = `mailto:${encodeURIComponent(destinatario)}?subject=${encodeURIComponent(assuntoEmail)}&body=${encodeURIComponent(corpo)}`;
+    return { destinatario, assunto: assuntoEmail, corpo };
+  }
+
+  suporteForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const dados = montarDadosSuporte();
+    if (!dados) {
+      statusSuporte.textContent = 'Preencha todos os campos antes de gerar o email.';
+      return;
+    }
+
+    const mailtoLink = `mailto:${encodeURIComponent(dados.destinatario)}?subject=${encodeURIComponent(dados.assunto)}&body=${encodeURIComponent(dados.corpo)}`;
 
     abrirModal(
       'Confira os dados antes de enviar o email. Se houver evidências, anexe-as ao email.',
       mailtoLink,
       statusSuporte
     );
+  });
+
+  copiarSuporteBtn.addEventListener('click', () => {
+    const dados = montarDadosSuporte();
+    if (!dados) {
+      statusSuporte.textContent = 'Preencha todos os campos antes de copiar.';
+      return;
+    }
+    const texto = `Destinatário(s): ${dados.destinatario}\nAssunto: ${dados.assunto}\n\n${dados.corpo}`;
+    copiarParaAreaDeTransferencia(texto, statusSuporte);
   });
 
   limparSuporteBtn.addEventListener('click', () => {
