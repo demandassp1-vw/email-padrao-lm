@@ -299,6 +299,27 @@
     transform: scale(0.98);
   }
 
+  button.excel {
+    flex: 1;
+    background: #1d6f42;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  button.excel:hover {
+    background: #175a35;
+  }
+
+  button.excel:active {
+    transform: scale(0.98);
+  }
+
   .status {
     text-align: center;
     font-size: 12px;
@@ -384,6 +405,7 @@
     background: #7bc981;
   }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 </head>
 <body>
 
@@ -405,7 +427,7 @@
       <div class="field-group">
         <label for="destinatario">Email de destino</label>
         <select id="destinatario" required>
-          <option value="natacha.silva@lm-mobilidade.com" selected>natacha.silva@lm-mobilidade.com</option>
+          <option value="natacha.silva@lm-mobilidade.com,ednea.batista@lm-mobilidade.com,Marcos.Custodio@vwfs.com" selected>natacha.silva@lm-mobilidade.com; ednea.batista@lm-mobilidade.com; Marcos.Custodio@vwfs.com</option>
         </select>
       </div>
 
@@ -470,6 +492,10 @@
         <span class="address-title">Dados do cliente</span>
 
         <div class="field-group">
+          <label for="nomeCliente">Nome do cliente</label>
+          <input type="text" id="nomeCliente" required>
+        </div>
+        <div class="field-group">
           <label for="cpfCnpjCliente">CPF/CNPJ</label>
           <input type="text" id="cpfCnpjCliente" required>
         </div>
@@ -521,7 +547,7 @@
       </div>
 
       <div class="address-block">
-        <span class="address-title">Dados da loja</span>
+        <span class="address-title">Dados da loja - Envio do documento</span>
 
         <div class="field-group">
           <label for="emailLoja">Email</label>
@@ -529,11 +555,47 @@
         </div>
         <div class="field-group">
           <label for="produtoLoja">Produto</label>
-          <input type="text" id="produtoLoja" required>
+          <select id="produtoLoja" required>
+            <option value="" disabled selected></option>
+            <option value="Consignado">Consignado</option>
+          </select>
         </div>
         <div class="field-group">
           <label for="razaoSocialLoja">Razão Social</label>
           <input type="text" id="razaoSocialLoja" required>
+        </div>
+        <div class="field-group">
+          <label for="ruaLoja">Rua/Avenida</label>
+          <input type="text" id="ruaLoja" required>
+        </div>
+        <div class="field-group">
+          <label for="numeroLoja">Nº</label>
+          <input type="text" id="numeroLoja" required>
+        </div>
+        <div class="field-group">
+          <label for="bairroLoja">Bairro</label>
+          <input type="text" id="bairroLoja" required>
+        </div>
+        <div class="field-group">
+          <label for="cepLoja">CEP</label>
+          <input type="text" id="cepLoja" required>
+        </div>
+        <div class="field-group">
+          <label for="cidadeLoja">Cidade</label>
+          <input type="text" id="cidadeLoja" required>
+        </div>
+        <div class="field-group">
+          <label for="ufLoja">UF</label>
+          <select id="ufLoja" required>
+            <option value="" disabled selected></option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+            <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+            <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+            <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+            <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+            <option>SP</option><option>SE</option><option>TO</option>
+          </select>
         </div>
       </div>
 
@@ -541,6 +603,9 @@
         <button type="button" class="copiar" id="copiarBtn">Copiar dados para email</button>
         <button type="submit" class="primary">Gerar email</button>
         <button type="button" class="secondary" id="limparBtn">Limpar</button>
+      </div>
+      <div class="actions" style="margin-top:0;">
+        <button type="button" class="excel" id="excelBtn">Baixar planilha Excel (upload)</button>
       </div>
       <div class="status" id="status"></div>
     </form>
@@ -574,6 +639,48 @@
       <div class="field-group">
         <label for="valorBoletoInput">Valor</label>
         <input type="text" id="valorBoletoInput" required>
+      </div>
+
+      <div class="address-block">
+        <span class="address-title">Dados do veículo</span>
+
+        <div class="field-group">
+          <label for="chassiBoleto">Chassi</label>
+          <input type="text" id="chassiBoleto" required>
+        </div>
+        <div class="field-group">
+          <label for="renavamBoleto">Renavam</label>
+          <input type="text" id="renavamBoleto" required>
+        </div>
+        <div class="field-group">
+          <label for="hodometroBoleto">Hodômetro</label>
+          <input type="text" id="hodometroBoleto" required>
+        </div>
+        <div class="field-group">
+          <label for="valorVendaBoleto">Valor Venda</label>
+          <input type="text" id="valorVendaBoleto" required>
+        </div>
+        <div class="field-group">
+          <label for="modeloBoleto">Modelo</label>
+          <input type="text" id="modeloBoleto" required>
+        </div>
+        <div class="field-group">
+          <label for="marcaBoleto">Marca</label>
+          <input type="text" id="marcaBoleto" required>
+        </div>
+        <div class="field-group">
+          <label for="ufEmplacamentoBoleto">UF Emplacamento</label>
+          <select id="ufEmplacamentoBoleto" required>
+            <option value="" disabled selected></option>
+              <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+              <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+              <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+              <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+              <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+              <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+              <option>SP</option><option>SE</option><option>TO</option>
+          </select>
+        </div>
       </div>
 
       <div class="address-block">
@@ -623,6 +730,23 @@
         </div>
       </div>
 
+      <div class="address-block">
+        <span class="address-title">Dados da loja</span>
+
+        <div class="field-group">
+          <label for="emailLojaBoleto">Email</label>
+          <input type="email" id="emailLojaBoleto" required>
+        </div>
+        <div class="field-group">
+          <label for="produtoLojaBoleto">Produto</label>
+          <input type="text" id="produtoLojaBoleto" required>
+        </div>
+        <div class="field-group">
+          <label for="razaoSocialLojaBoleto">Razão Social</label>
+          <input type="text" id="razaoSocialLojaBoleto" required>
+        </div>
+      </div>
+
       <div class="field-group">
         <label for="nomeClienteBoleto">Nome do cliente</label>
         <input type="text" id="nomeClienteBoleto" required>
@@ -631,6 +755,11 @@
       <div class="field-group">
         <label for="cpfBoleto">CPF/CNPJ</label>
         <input type="text" id="cpfBoleto" required>
+      </div>
+
+      <div class="field-group">
+        <label for="rgClienteBoleto">RG</label>
+        <input type="text" id="rgClienteBoleto" required>
       </div>
 
       <div class="address-block">
@@ -677,6 +806,11 @@
               <option>SP</option><option>SE</option><option>TO</option>
             </select>
           </div>
+        </div>
+
+        <div class="field-group">
+          <label for="complementoClienteBoleto">Complemento</label>
+          <input type="text" id="complementoClienteBoleto">
         </div>
       </div>
 
@@ -875,6 +1009,7 @@
   const marcaInput = document.getElementById('marca');
   const ufEmplacamentoInput = document.getElementById('ufEmplacamento');
 
+  const nomeClienteInput = document.getElementById('nomeCliente');
   const cpfCnpjClienteInput = document.getElementById('cpfCnpjCliente');
   const rgClienteInput = document.getElementById('rgCliente');
   const emailClienteInput = document.getElementById('emailCliente');
@@ -889,11 +1024,18 @@
   const emailLojaInput = document.getElementById('emailLoja');
   const produtoLojaInput = document.getElementById('produtoLoja');
   const razaoSocialLojaInput = document.getElementById('razaoSocialLoja');
+  const ruaLojaInput = document.getElementById('ruaLoja');
+  const numeroLojaInput = document.getElementById('numeroLoja');
+  const bairroLojaInput = document.getElementById('bairroLoja');
+  const cepLojaInput = document.getElementById('cepLoja');
+  const cidadeLojaInput = document.getElementById('cidadeLoja');
+  const ufLojaInput = document.getElementById('ufLoja');
 
   const status = document.getElementById('status');
   const form = document.getElementById('emailForm');
   const limparBtn = document.getElementById('limparBtn');
   const copiarBtn = document.getElementById('copiarBtn');
+  const excelBtn = document.getElementById('excelBtn');
 
   function maskCNPJColeta(valor) {
     return valor.replace(/\D/g, '').slice(0, 14)
@@ -929,6 +1071,10 @@
     cepClienteInput.value = maskCEPColeta(cepClienteInput.value);
   });
 
+  cepLojaInput.addEventListener('input', () => {
+    cepLojaInput.value = maskCEPColeta(cepLojaInput.value);
+  });
+
   function montarDadosDocumentos() {
     const destinatario = destinatarioInput.value.trim();
     const placa = placaInput.value.trim().toUpperCase();
@@ -942,6 +1088,7 @@
     const marca = marcaInput.value.trim();
     const ufEmplacamento = ufEmplacamentoInput.value;
 
+    const nomeCliente = nomeClienteInput.value.trim();
     const cpfCnpjCliente = cpfCnpjClienteInput.value.trim();
     const rgCliente = rgClienteInput.value.trim();
     const emailCliente = emailClienteInput.value.trim();
@@ -956,10 +1103,17 @@
     const emailLoja = emailLojaInput.value.trim();
     const produtoLoja = produtoLojaInput.value.trim();
     const razaoSocialLoja = razaoSocialLojaInput.value.trim();
+    const ruaLoja = ruaLojaInput.value.trim();
+    const numeroLoja = numeroLojaInput.value.trim();
+    const bairroLoja = bairroLojaInput.value.trim();
+    const cepLoja = cepLojaInput.value.trim();
+    const cidadeLoja = cidadeLojaInput.value.trim();
+    const ufLoja = ufLojaInput.value;
 
     if (!placa || !loja || !cnpj || !chassi || !renavam || !hodometro || !valorVenda || !modelo || !marca || !ufEmplacamento ||
-        !cpfCnpjCliente || !rgCliente || !emailCliente || !cepCliente || !ufCliente || !cidadeCliente || !enderecoCliente || !numeroCliente || !bairroCliente ||
-        !emailLoja || !produtoLoja || !razaoSocialLoja) {
+        !nomeCliente || !cpfCnpjCliente || !rgCliente || !emailCliente || !cepCliente || !ufCliente || !cidadeCliente || !enderecoCliente || !numeroCliente || !bairroCliente ||
+        !emailLoja || !produtoLoja || !razaoSocialLoja ||
+        !ruaLoja || !numeroLoja || !bairroLoja || !cepLoja || !cidadeLoja || !ufLoja) {
       return null;
     }
 
@@ -980,6 +1134,7 @@ Marca: ${marca}
 UF Emplacamento: ${ufEmplacamento}
 
 Dados do Cliente para Preenchimento:
+Nome do cliente: ${nomeCliente}
 CPF/CNPJ: ${cpfCnpjCliente}
 RG: ${rgCliente}
 Email: ${emailCliente}
@@ -995,7 +1150,13 @@ Dados da Loja:
 CNPJ: ${cnpj}
 Email: ${emailLoja}
 Produto: ${produtoLoja}
-Razão Social: ${razaoSocialLoja}`;
+Razão Social: ${razaoSocialLoja}
+Rua/Avenida: ${ruaLoja}
+Nº: ${numeroLoja}
+Bairro: ${bairroLoja}
+CEP: ${cepLoja}
+Cidade: ${cidadeLoja}
+UF: ${ufLoja}`;
 
     return { destinatario, assunto, corpo };
   }
@@ -1033,6 +1194,110 @@ Razão Social: ${razaoSocialLoja}`;
     status.textContent = 'Formulário limpo.';
   });
 
+  /* ===================== PLANILHA EXCEL (DOCUMENTOS) ===================== */
+  const EXCEL_CLIENTE_EMAIL = 'natacha.silva@lm-mobilidade.com';
+  const EXCEL_EMPRESA_CNPJ = 389481003275; /* 00.389.481/0032-75 */
+  const EXCEL_EMPRESA_EMAIL = 'naotem@gmail.com';
+
+  function soDigitosOuTexto(valor) {
+    const limpo = String(valor).trim().replace(/[.\s]/g, '');
+    return /^\d+$/.test(limpo) ? Number(limpo) : String(valor).trim();
+  }
+
+  function valorMonetario(valor) {
+    let t = String(valor).replace(/R\$|\s/g, '');
+    if (t.includes(',')) t = t.replace(/\./g, '').replace(',', '.');
+    else if (/^\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g, '');
+    const n = parseFloat(t);
+    return isNaN(n) ? String(valor).trim() : n;
+  }
+
+  async function gerarPlanilhaDocumentos() {
+    if (typeof ExcelJS === 'undefined') {
+      status.textContent = 'Biblioteca do Excel não carregou. Verifique a conexão com a internet e recarregue a página.';
+      return;
+    }
+    if (!montarDadosDocumentos()) {
+      status.textContent = 'Preencha todos os campos antes de gerar a planilha.';
+      return;
+    }
+
+    const placa = placaInput.value.trim().toUpperCase();
+    const complemento = complementoClienteInput.value.trim() || '-';
+
+    const colunas = [
+      ['Placa', 'verde', 12, placa],
+      ['Chassi', 'verde', 20, chassiInput.value.trim()],
+      ['Renavam', 'verde', 15, soDigitosOuTexto(renavamInput.value)],
+      ['Hodômetro', 'verde', 13, soDigitosOuTexto(hodometroInput.value)],
+      ['Valor Venda', 'verde', 16, valorMonetario(valorVendaInput.value)],
+      ['UF Emplacamento', 'verde', 17, ufEmplacamentoInput.value],
+      ['Cliente', 'verde', 30, nomeClienteInput.value.trim()],
+      ['Cliente CPF/CNPJ', 'verde', 20, cpfCnpjClienteInput.value.trim()],
+      ['Cliente RG', 'verde', 15, rgClienteInput.value.trim()],
+      ['Cliente Email', 'verde', 36, EXCEL_CLIENTE_EMAIL],
+      ['Cliente CEP', 'verde', 12, cepClienteInput.value.trim()],
+      ['Cliente UF', 'verde', 11, ufClienteInput.value],
+      ['Cliente Cidade', 'verde', 18, cidadeClienteInput.value.trim()],
+      ['Cliente Endereço', 'verde', 28, enderecoClienteInput.value.trim()],
+      ['Cliente Nº', 'verde', 11, soDigitosOuTexto(numeroClienteInput.value)],
+      ['Cliente Complemento', 'verde', 21, complemento],
+      ['Cliente Bairro', 'verde', 20, bairroClienteInput.value.trim()],
+      ['Empresa CNPJ', 'verde', 20, EXCEL_EMPRESA_CNPJ],
+      ['Empresa Email', 'verde', 22, EXCEL_EMPRESA_EMAIL],
+      ['Destinatário', 'azul', 28, razaoSocialLojaInput.value.trim()],
+      ['Documento CEP', 'azul', 15, cepLojaInput.value.trim()],
+      ['Documento UF', 'azul', 14, ufLojaInput.value],
+      ['Documento Cidade', 'azul', 18, cidadeLojaInput.value.trim()],
+      ['Documento Endereço', 'azul', 28, ruaLojaInput.value.trim()],
+      ['Documento Nº', 'azul', 14, soDigitosOuTexto(numeroLojaInput.value)],
+      ['Documento Complemento', 'azul', 23, '-'],
+      ['Documento Bairro', 'azul', 20, bairroLojaInput.value.trim()]
+    ];
+
+    const wb = new ExcelJS.Workbook();
+    const ws = wb.addWorksheet('Planilha1');
+    const centro = { horizontal: 'center', vertical: 'middle' };
+
+    colunas.forEach(([titulo, cor, largura, valor], i) => {
+      const col = ws.getColumn(i + 1);
+      col.width = largura;
+
+      const h = ws.getCell(1, i + 1);
+      h.value = titulo;
+      h.alignment = centro;
+      h.font = cor === 'verde'
+        ? { name: 'Calibri', size: 11, bold: true }
+        : { name: 'Calibri', size: 11, bold: true, color: { argb: 'FFFFFFFF' } };
+      h.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: cor === 'verde' ? 'FF00B050' : 'FF0F243E' } };
+
+      const c = ws.getCell(2, i + 1);
+      c.value = valor;
+      c.alignment = centro;
+      c.font = { name: 'Aptos Narrow', size: 11 };
+      if (titulo === 'Valor Venda' && typeof valor === 'number') c.numFmt = '"R$" #,##0.00';
+      if (titulo === 'Empresa CNPJ') c.numFmt = '00"."000"."000"/"0000"-"00';
+    });
+
+    try {
+      const buffer = await wb.xlsx.writeBuffer();
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `PREENCHIMENTO_${placa}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      status.textContent = 'Planilha gerada! Verifique o download.';
+    } catch (err) {
+      status.textContent = 'Não foi possível gerar a planilha.';
+    }
+  }
+
+  excelBtn.addEventListener('click', gerarPlanilhaDocumentos);
+
   /* ===================== FORMULÁRIO: SOLICITAÇÃO DE BOLETO ===================== */
   const destinatarioBoletoInput = document.getElementById('destinatarioBoleto');
   const lojaBoletoInput = document.getElementById('lojaBoleto');
@@ -1045,6 +1310,19 @@ Razão Social: ${razaoSocialLoja}`;
   const boletoForm = document.getElementById('boletoForm');
   const limparBoletoBtn = document.getElementById('limparBoletoBtn');
   const copiarBoletoBtn = document.getElementById('copiarBoletoBtn');
+
+  const chassiBoletoInput = document.getElementById('chassiBoleto');
+  const renavamBoletoInput = document.getElementById('renavamBoleto');
+  const hodometroBoletoInput = document.getElementById('hodometroBoleto');
+  const valorVendaBoletoInput = document.getElementById('valorVendaBoleto');
+  const modeloBoletoInput = document.getElementById('modeloBoleto');
+  const marcaBoletoInput = document.getElementById('marcaBoleto');
+  const ufEmplacamentoBoletoInput = document.getElementById('ufEmplacamentoBoleto');
+  const rgClienteBoletoInput = document.getElementById('rgClienteBoleto');
+  const complementoClienteBoletoInput = document.getElementById('complementoClienteBoleto');
+  const emailLojaBoletoInput = document.getElementById('emailLojaBoleto');
+  const produtoLojaBoletoInput = document.getElementById('produtoLojaBoleto');
+  const razaoSocialLojaBoletoInput = document.getElementById('razaoSocialLojaBoleto');
 
   const ruaClienteBoletoInput = document.getElementById('ruaClienteBoleto');
   const numeroClienteBoletoInput = document.getElementById('numeroClienteBoleto');
@@ -1137,13 +1415,29 @@ Razão Social: ${razaoSocialLoja}`;
     const ufEnvio = ufEnvioBoletoInput.value;
     const valorBoleto = valorBoletoInput.value.trim();
 
+    const chassi = chassiBoletoInput.value.trim();
+    const renavam = renavamBoletoInput.value.trim();
+    const hodometro = hodometroBoletoInput.value.trim();
+    const valorVenda = valorVendaBoletoInput.value.trim();
+    const modelo = modeloBoletoInput.value.trim();
+    const marca = marcaBoletoInput.value.trim();
+    const ufEmplacamento = ufEmplacamentoBoletoInput.value;
+    const rgCliente = rgClienteBoletoInput.value.trim();
+    const complementoCliente = complementoClienteBoletoInput.value.trim();
+    const emailLoja = emailLojaBoletoInput.value.trim();
+    const produtoLoja = produtoLojaBoletoInput.value.trim();
+    const razaoSocialLoja = razaoSocialLojaBoletoInput.value.trim();
+
     if (!loja || !cnpj || !email || !placa || !nomeCliente || !cpf ||
         !ruaCliente || !numeroCliente || !bairroCliente || !cepCliente || !cidadeCliente || !ufCliente ||
-        !ruaEnvio || !numeroEnvio || !bairroEnvio || !cepEnvio || !cidadeEnvio || !ufEnvio || !valorBoleto) {
+        !ruaEnvio || !numeroEnvio || !bairroEnvio || !cepEnvio || !cidadeEnvio || !ufEnvio || !valorBoleto ||
+        !chassi || !renavam || !hodometro || !valorVenda || !modelo || !marca || !ufEmplacamento ||
+        !rgCliente || !emailLoja || !produtoLoja || !razaoSocialLoja) {
       return null;
     }
 
-    const enderecoCliente = `${ruaCliente}, nº ${numeroCliente} - ${bairroCliente} - CEP ${cepCliente} - ${cidadeCliente}/${ufCliente}`;
+    const complementoTxt = complementoCliente ? ` - ${complementoCliente}` : '';
+    const enderecoCliente = `${ruaCliente}, nº ${numeroCliente}${complementoTxt} - ${bairroCliente} - CEP ${cepCliente} - ${cidadeCliente}/${ufCliente}`;
     const enderecoLoja = `${ruaEnvio}, nº ${numeroEnvio} - ${bairroEnvio} - CEP ${cepEnvio} - ${cidadeEnvio}/${ufEnvio}`;
 
     const assunto = `Solicitações de Boletos Novos Negócios | Placa: ${placa} - Loja: ${loja} - CNPJ: ${cnpj}`;
@@ -1155,12 +1449,25 @@ Solicito o boleto e o preenchimento do ATPV com os seguintes dados:
 Placa: ${placa}
 Valor: ${valorBoleto}
 
+Dados do veículo:
+Chassi: ${chassi}
+Renavam: ${renavam}
+Hodômetro: ${hodometro}
+Valor Venda: ${valorVenda}
+Modelo: ${modelo}
+Marca: ${marca}
+UF Emplacamento: ${ufEmplacamento}
+
 Nome da loja: ${loja}
 CNPJ: ${cnpj}
 Endereço da loja: ${enderecoLoja}
+Email da loja: ${emailLoja}
+Produto: ${produtoLoja}
+Razão Social: ${razaoSocialLoja}
 
 Nome do cliente: ${nomeCliente}
 CPF/CNPJ: ${cpf}
+RG: ${rgCliente}
 Endereço do cliente: ${enderecoCliente}
 
 Email para envio do boleto: ${email}`;
