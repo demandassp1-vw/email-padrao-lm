@@ -547,8 +547,12 @@
       </div>
 
       <div class="address-block">
-        <span class="address-title">Dados da loja - Envio do documento</span>
+        <span class="address-title">Envio do Documento - Dados da loja</span>
 
+        <div class="field-group">
+          <label for="razaoSocialLoja">Razão Social (Nome da loja)</label>
+          <input type="text" id="razaoSocialLoja" required>
+        </div>
         <div class="field-group">
           <label for="emailLoja">Email</label>
           <input type="email" id="emailLoja" required>
@@ -559,10 +563,6 @@
             <option value="" disabled selected></option>
             <option value="Consignado">Consignado</option>
           </select>
-        </div>
-        <div class="field-group">
-          <label for="razaoSocialLoja">Razão Social</label>
-          <input type="text" id="razaoSocialLoja" required>
         </div>
         <div class="field-group">
           <label for="ruaLoja">Rua/Avenida</label>
@@ -1146,11 +1146,11 @@ Nº: ${numeroCliente}
 Complemento: ${complementoCliente}
 Bairro: ${bairroCliente}
 
-Dados da Loja:
+Envio do Documento - Dados da loja:
+Razão Social: ${razaoSocialLoja}
 CNPJ: ${cnpj}
 Email: ${emailLoja}
 Produto: ${produtoLoja}
-Razão Social: ${razaoSocialLoja}
 Rua/Avenida: ${ruaLoja}
 Nº: ${numeroLoja}
 Bairro: ${bairroLoja}
@@ -1369,6 +1369,10 @@ UF: ${ufLoja}`;
     const numero = parseInt(digitos, 10) / 100;
     return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
+
+  valorVendaInput.addEventListener('input', () => {
+    valorVendaInput.value = maskMoeda(valorVendaInput.value);
+  });
 
   const valorBoletoInput = document.getElementById('valorBoletoInput');
   valorBoletoInput.addEventListener('input', () => {
